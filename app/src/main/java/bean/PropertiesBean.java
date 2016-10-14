@@ -86,18 +86,4 @@ public class PropertiesBean {
     public void setAlbums(Object albums) {
         this.albums = albums;
     }
-
-    @Override
-    public String toString() {
-        return "PropertiesBean{" +
-                "id=" + id +
-                ", goodsId=" + goodsId +
-                ", colorId=" + colorId +
-                ", colorName='" + colorName + '\'' +
-                ", colorCode='" + colorCode + '\'' +
-                ", colorImg='" + colorImg + '\'' +
-                ", colorUrl='" + colorUrl + '\'' +
-                ", albums=" + albums +
-                '}';
-    }
 }
