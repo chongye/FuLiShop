@@ -1,6 +1,7 @@
 package cn.ucai.fulishop.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -22,10 +23,17 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        new Thread(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // 开始时间
+                MFGT.gotoMainActivity(SplashActivity.this);
+                finish();
+            }
+        },sleepTime);
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+              *//*  // 开始时间
                 long start = System.currentTimeMillis();
                 // create 设置联网操作 后续进行
                 long costTime = System.currentTimeMillis()-start;// 从启动到联网的操作耗时
@@ -36,12 +44,12 @@ public class SplashActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                /*startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                *//*overridePendingTransition(R.anim.slide_in_from_left,R.anim.slide_in_from_right);*//*
-                finish(); //  防止退出时重新到splash界面*/
+                *//**//*startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                *//**//**//**//*overridePendingTransition(R.anim.slide_in_from_left,R.anim.slide_in_from_right);*//**//**//**//*
+                finish(); //  防止退出时重新到splash界面*//**//*
                 MFGT.gotoMainActivity(SplashActivity.this);
                 MFGT.finish(SplashActivity.this);
             }
-        }).start();
+        }).start();*/
     }
 }
