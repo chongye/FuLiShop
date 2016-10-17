@@ -11,12 +11,6 @@
         android:orientation="horizontal"
         android:background="@color/bottom_bar_taobao_bg"
         android:layout_alignParentBottom="true">
-        <RadioGroup
-            android:id="@+id/rg_bottom_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
             <RadioButton
                 android:id="@+id/rb_NewsGood"
                 style="@style/menu_item_style"
@@ -70,7 +64,6 @@
                 android:drawableTop="@drawable/selector_menu_item_personal_center"
                 android:checked="false"
                 android:button="@null"/>
-        </RadioGroup>
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"

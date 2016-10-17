@@ -5,13 +5,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Switch;
 
 import java.util.ArrayList;
 
-import bean.NewGoodsBean;
 import cn.ucai.fulishop.fragment.BoutiqueFragment;
 import cn.ucai.fulishop.fragment.CartsFragment;
 import cn.ucai.fulishop.fragment.CategoryFragment;
@@ -20,6 +20,8 @@ import cn.ucai.fulishop.fragment.PersonalFragment;
 
 public class MainActivity extends AppCompatActivity {
     RadioButton mNewGoods,mBoutique,mCategory,mCart,mPersonal;
+
+    RadioButton[] rbs;
 
     NewGoodsFragment newGoodsFragment;
     BoutiqueFragment boutiqueFragment;
@@ -44,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
         mCart = (RadioButton) findViewById(R.id.rb_Cart);
         mPersonal = (RadioButton) findViewById(R.id.rb_Personal);
 
+        rbs = new RadioButton[5];
+        rbs[0] = mNewGoods;
+        rbs[1] = mBoutique;
+        rbs[2] = mCategory;
+        rbs[3] = mCart;
+        rbs[4] = mPersonal;
+
         newGoodsFragment = new NewGoodsFragment();
         boutiqueFragment = new BoutiqueFragment();
         categoryFragment = new CategoryFragment();
@@ -63,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCheckedChange(View view){
+       /* if(view.getId()!=R.id.rb_Cart){ // 没点购物车
+            mCart.setChecked(false);
+        }else{  // 购物车被点击
+            mNewGoods.setChecked(false);
+            mBoutique.setChecked(false);
+            mCategory.setChecked(false);
+            mPersonal.setChecked(false);
+        }*/
         switch (view.getId()){
             case R.id.rb_NewsGood:
                 indext = 0;
@@ -84,13 +101,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         switchFragment(indext);
-        if(view.getId()!=R.id.rb_Cart){
-            mCart.setChecked(false);
-        }else{
-            mNewGoods.setChecked(false);
-            mBoutique.setChecked(false);
-            mCategory.setChecked(false);
-            mPersonal.setChecked(false);
+        setRadioButon();
+    }
+
+    private void setRadioButon() {
+        for(int i=0;i<rbs.length;i++){
+            if(i==indext){
+                rbs[i].setChecked(true);
+            }else {
+                rbs[i].setChecked(false);
+            }
         }
     }
 
