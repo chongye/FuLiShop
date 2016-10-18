@@ -20,6 +20,7 @@ import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.activity.GoodsDetailsActivity;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.ImageLoader;
+import cn.ucai.fulishop.utils.MFGT;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -130,8 +131,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @OnClick(R.id.layout_Goods)
         public void OnNewGoodsItemClick(){
             int goodId = (int) layoutGoods.getTag();
-            mContext.startActivity(new Intent(mContext,GoodsDetailsActivity.class).putExtra(I.GoodsDetails.KEY_GOODS_ID,goodId));
+            MFGT.startDetailsActivity(mContext,goodId);
         }
-
     }
 }

@@ -1,10 +1,12 @@
 package cn.ucai.fulishop.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import cn.ucai.fulishop.MainActivity;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.activity.GoodsDetailsActivity;
 
 
 public class MFGT {
@@ -15,10 +17,22 @@ public class MFGT {
     public static void gotoMainActivity(Activity context){
         startActivity(context, MainActivity.class);
     }
-    public static void startActivity(Activity context,Class<?> cls){
+    public static void startActivity(Context context,Class<?> cls){
         Intent intent = new Intent();
         intent.setClass(context,cls);
+        startActivity(context,intent);
+        /*context.startActivity(intent);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);*/
+    }
+    public static void startDetailsActivity(Context context,int goodsId){
+        Intent intent = new Intent(context, GoodsDetailsActivity.class);
+        intent.putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId);
+        startActivity(context,intent);
+        /*context.startActivity(intent);
+        ((Activity)context).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);*/
+    }
+    public static void startActivity(Context context,Intent intent){
         context.startActivity(intent);
-        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+        ((Activity)context).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
 }
