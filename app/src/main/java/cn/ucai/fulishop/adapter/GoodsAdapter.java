@@ -1,10 +1,13 @@
 package cn.ucai.fulishop.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,7 +15,9 @@ import java.util.ArrayList;
 import bean.NewGoodsBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.activity.GoodsDetailsActivity;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.ImageLoader;
 
@@ -25,7 +30,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     String footer;
 
     boolean isMore;
-
 
     public GoodsAdapter(Context mContext, ArrayList<NewGoodsBean> goods) {
         this.mContext = mContext;
@@ -40,16 +44,18 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         isMore = more;
     }
 
-    public void initNewGoods(ArrayList<NewGoodsBean> goods){
+    public void initNewGoods(ArrayList<NewGoodsBean> goods) {
         this.goods.clear();
         this.goods.addAll(goods);
         notifyDataSetChanged();
     }
-    public void addNewGoods(ArrayList<NewGoodsBean> goods){
+
+    public void addNewGoods(ArrayList<NewGoodsBean> goods) {
         this.goods.addAll(goods);
         notifyDataSetChanged();
     }
-    public void setFooter(String footer){
+
+    public void setFooter(String footer) {
         this.footer = footer;
         notifyDataSetChanged();
     }
@@ -70,17 +76,18 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(getItemViewType(position)==I.TYPE_FOOTER){
+        if (getItemViewType(position) == I.TYPE_FOOTER) {
         /*if(getItemViewType(I.TYPE_FOOTER)==position){*/
             FooterViewHolder fvh = (FooterViewHolder) holder;
             fvh.tvFooter.setText(footer);
             return;
         }
         GoodsViewHolder gvh = (GoodsViewHolder) holder;
-        NewGoodsBean newGood = goods.get(position);
+        final NewGoodsBean newGood = goods.get(position);
         gvh.tvGoosName.setText(newGood.getGoodsName());
         gvh.tvGoodsPrice.setText(newGood.getCurrencyPrice());
-        ImageLoader.downloadImg(mContext,gvh.ivGoodsThumb,newGood.getGoodsThumb());
+        ImageLoader.downloadImg(mContext, gvh.ivGoodsThumb, newGood.getGoodsThumb());
+        gvh.layoutGoods.setTag(newGood.getGoodsId());
     }
 
     @Override
@@ -106,17 +113,25 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    static class GoodsViewHolder extends RecyclerView.ViewHolder{
+    class GoodsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivGoodsThumb)
         ImageView ivGoodsThumb;
         @BindView(R.id.tvGoosName)
         TextView tvGoosName;
         @BindView(R.id.tvGoodsPrice)
         TextView tvGoodsPrice;
+        @BindView(R.id.layout_Goods)
+        LinearLayout layoutGoods;
 
         GoodsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
+        @OnClick(R.id.layout_Goods)
+        public void OnNewGoodsItemClick(){
+            int goodId = (int) layoutGoods.getTag();
+            mContext.startActivity(new Intent(mContext,GoodsDetailsActivity.class).putExtra(I.GoodsDetails.KEY_GOODS_ID,goodId));
+        }
+
     }
 }
