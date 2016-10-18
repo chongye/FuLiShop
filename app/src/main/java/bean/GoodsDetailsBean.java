@@ -1,45 +1,28 @@
 package bean;
 
-/**
- * Created by Administrator on 2016/10/13.
- */
-public class GoodsDetailsBean {
+import java.io.Serializable;
+import java.util.Arrays;
+
+import bean.PropertiesBean;
+
+public class GoodsDetailsBean implements Serializable {
+
     private int id;
-
     private int goodsId;
-
     private int catId;
-
     private String goodsName;
-
     private String goodsEnglishName;
-
     private String goodsBrief;
-
     private String shopPrice;
-
     private String currencyPrice;
-
     private String promotePrice;
-
     private String rankPrice;
-
-    private boolean isPromote;
-
     private String goodsThumb;
-
     private String goodsImg;
-
-    private int addTime;
-
+    private long addTime;
     private String shareUrl;
-
-    private Object properties ;
-
-    private boolean promote;
-
-    public GoodsDetailsBean() {
-    }
+    private boolean isPromote;
+    private PropertiesBean[] properties;
 
     public int getId() {
         return id;
@@ -121,14 +104,6 @@ public class GoodsDetailsBean {
         this.rankPrice = rankPrice;
     }
 
-    public boolean isPromote() {
-        return isPromote;
-    }
-
-    public void setPromote(boolean promote) {
-        isPromote = promote;
-    }
-
     public String getGoodsThumb() {
         return goodsThumb;
     }
@@ -145,11 +120,11 @@ public class GoodsDetailsBean {
         this.goodsImg = goodsImg;
     }
 
-    public int getAddTime() {
+    public long getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(int addTime) {
+    public void setAddTime(long addTime) {
         this.addTime = addTime;
     }
 
@@ -161,17 +136,25 @@ public class GoodsDetailsBean {
         this.shareUrl = shareUrl;
     }
 
-    public Object getProperties() {
+    public boolean isPromote() {
+        return isPromote;
+    }
+
+    public void setPromote(boolean promote) {
+        this.isPromote = promote;
+    }
+
+    public PropertiesBean[] getProperties() {
         return properties;
     }
 
-    public void setProperties(Object properties) {
+    public void setProperties(PropertiesBean[] properties) {
         this.properties = properties;
     }
 
     @Override
     public String toString() {
-        return "GoodsDetailsBean{" +
+        return "GoodDetailsBean{" +
                 "id=" + id +
                 ", goodsId=" + goodsId +
                 ", catId=" + catId +
@@ -182,13 +165,12 @@ public class GoodsDetailsBean {
                 ", currencyPrice='" + currencyPrice + '\'' +
                 ", promotePrice='" + promotePrice + '\'' +
                 ", rankPrice='" + rankPrice + '\'' +
-                ", isPromote=" + isPromote +
                 ", goodsThumb='" + goodsThumb + '\'' +
                 ", goodsImg='" + goodsImg + '\'' +
                 ", addTime=" + addTime +
                 ", shareUrl='" + shareUrl + '\'' +
-                ", properties=" + properties +
-                ", promote=" + promote +
+                ", promote=" + isPromote +
+                ", properties=" + Arrays.toString(properties) +
                 '}';
     }
 }

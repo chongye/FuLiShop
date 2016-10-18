@@ -1,27 +1,18 @@
 package bean;
 
-/**
- * Created by Administrator on 2016/10/13.
- */
-public class PropertiesBean {
+import java.io.Serializable;
+import java.util.Arrays;
+
+public class PropertiesBean implements Serializable {
+
     private int id;
-
     private int goodsId;
-
     private int colorId;
-
     private String colorName;
-
     private String colorCode;
-
     private String colorImg;
-
     private String colorUrl;
-
-    private Object albums ;
-
-    public PropertiesBean() {
-    }
+    private AlbumsBean[] albums;
 
     public int getId() {
         return id;
@@ -79,11 +70,25 @@ public class PropertiesBean {
         this.colorUrl = colorUrl;
     }
 
-    public Object getAlbums() {
+    public AlbumsBean[] getAlbums() {
         return albums;
     }
 
-    public void setAlbums(Object albums) {
+    public void setAlbums(AlbumsBean[] albums) {
         this.albums = albums;
+    }
+
+    @Override
+    public String toString() {
+        return "PropertiesBean{" +
+                "id=" + id +
+                ", goodsId=" + goodsId +
+                ", colorId=" + colorId +
+                ", colorName='" + colorName + '\'' +
+                ", colorCode='" + colorCode + '\'' +
+                ", colorImg='" + colorImg + '\'' +
+                ", colorUrl='" + colorUrl + '\'' +
+                ", albums=" + Arrays.toString(albums) +
+                '}';
     }
 }
