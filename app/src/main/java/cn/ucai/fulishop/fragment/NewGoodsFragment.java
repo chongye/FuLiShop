@@ -29,6 +29,7 @@ import cn.ucai.fulishop.adapter.GoodsAdapter;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.ImageLoader;
 import cn.ucai.fulishop.utils.OkHttpUtils;
+import cn.ucai.fulishop.views.SpaceItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +76,9 @@ public class NewGoodsFragment extends Fragment {
             public void onRefresh() {
                 mPageId = 1;
                 tvRefresh.setVisibility(View.VISIBLE);
+                //  是否可用
                 srl.setEnabled(true);
+                // 是否刷新
                 srl.setRefreshing(true);
                 initData(I.ACTION_PULL_DOWN,mPageId);
             }
@@ -85,17 +88,27 @@ public class NewGoodsFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                // 每一屏的最后的下标
                 lastPosition = gridLayoutManager.findLastVisibleItemPosition();
+                // 如果每一屏的最后一个下标等于，每一屏的Adapter的最后一个下标，就执行
                 if(lastPosition>=mGoodsAdapter.getItemCount()-1&&newState == RecyclerView.SCROLL_STATE_DRAGGING
                         && mGoodsAdapter.isMore()){
                     mPageId++;
                     initData(I.ACTION_PULL_UP,mPageId);
                 }
-                if(newState!=RecyclerView.SCROLL_STATE_DRAGGING){
+               /* if(newState!=RecyclerView.SCROLL_STATE_DRAGGING){
                     mGoodsAdapter.notifyDataSetChanged();
-                }
+                }*/
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int firstPosition = gridLayoutManager.findFirstVisibleItemPosition();
+                // 当一屏的第一个下标等于0时，srl控件才可以用
+                srl.setEnabled(firstPosition==0);
             }
         });
+
     }
 
     private void initData(final int action, int mPageId) {
@@ -110,7 +123,7 @@ public class NewGoodsFragment extends Fragment {
                 ArrayList<NewGoodsBean> newGoodsList = new ArrayList<>(list);
                 if(!mGoodsAdapter.isMore()){
                     if(action==I.ACTION_PULL_UP){
-                        mGoodsAdapter.setFooter(I.NewGoods.HINT_DOWNLOAD_FAILURE);
+                        mGoodsAdapter.setFooter(getResources().getString(R.string.no_more));
                     }
                     return;
                 }
@@ -124,17 +137,16 @@ public class NewGoodsFragment extends Fragment {
                     case I.ACTION_PULL_DOWN:
                         mGoodsAdapter.initNewGoods(newGoodsList);
                         tvRefresh.setVisibility(View.GONE);
-                        /*srl.setEnabled(false);*/
                         srl.setRefreshing(false);
-                        /*ImageLoader.release();*/
                         break;
                 }
-                mGoodsAdapter.setFooter(I.NewGoods.HINT_DOWNLOADING);
+                mGoodsAdapter.setFooter(getResources().getString(R.string.load_more));
             }
 
             @Override
             public void onError(String error) {
-
+                srl.setRefreshing(false);
+                srl.setEnabled(false);
             }
         });
     }
@@ -150,6 +162,9 @@ public class NewGoodsFragment extends Fragment {
         Recycler.setHasFixedSize(true);
         Recycler.setLayoutManager(gridLayoutManager);
         Recycler.setAdapter(mGoodsAdapter);
+
+        // 设置控件间的距离
+        Recycler.addItemDecoration(new SpaceItemDecoration(12));
 
         srl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
