@@ -34,7 +34,7 @@ import cn.ucai.fulishop.views.SpaceItemDecoration;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewGoodsFragment extends Fragment {
+public class NewGoodsFragment extends BaseFragment{
     View view;
     @BindView(R.id.tvRefresh)
     TextView tvRefresh;
@@ -64,13 +64,16 @@ public class NewGoodsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_new_goods, container, false);
         ButterKnife.bind(this, view);
-        initView();
-        initData(I.ACTION_DOWNLOAD,mPageId);
-        setListener();
+        super.onCreateView(inflater,container,savedInstanceState);
         return view;
     }
+    @Override
+    protected void initData() {
+        initData(I.ACTION_DOWNLOAD,mPageId);
+    }
 
-    private void setListener() {
+    @Override
+    protected  void setListener() {
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -91,7 +94,7 @@ public class NewGoodsFragment extends Fragment {
                 // 每一屏的最后的下标
                 lastPosition = gridLayoutManager.findLastVisibleItemPosition();
                 // 如果每一屏的最后一个下标等于，每一屏的Adapter的最后一个下标，就执行
-                if(lastPosition>=mGoodsAdapter.getItemCount()-1&&newState == RecyclerView.SCROLL_STATE_DRAGGING
+                if(lastPosition>=mGoodsAdapter.getItemCount()-1&&newState == RecyclerView.SCROLL_STATE_IDLE
                         && mGoodsAdapter.isMore()){
                     mPageId++;
                     initData(I.ACTION_PULL_UP,mPageId);
@@ -111,8 +114,8 @@ public class NewGoodsFragment extends Fragment {
 
     }
 
-    private void initData(final int action, int mPageId) {
-        NetDao.downLoadNewGoods(mContext, mPageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+    private void initData(final int action, int pageId) {
+        NetDao.downLoadNewGoods(mContext, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 if(result==null){
@@ -151,7 +154,8 @@ public class NewGoodsFragment extends Fragment {
         });
     }
 
-    private void initView() {
+    @Override
+    protected  void initView() {
         mContext = getActivity();
         mNewGoods = new ArrayList<>();
         mGoodsAdapter = new GoodsAdapter(mContext,mNewGoods);

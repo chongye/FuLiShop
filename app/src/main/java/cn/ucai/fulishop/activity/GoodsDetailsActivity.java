@@ -2,7 +2,6 @@ package cn.ucai.fulishop.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +20,7 @@ import cn.ucai.fulishop.utils.OkHttpUtils;
 import cn.ucai.fulishop.views.FlowIndicator;
 import cn.ucai.fulishop.views.SlideAutoLoopView;
 
-public class GoodsDetailsActivity extends AppCompatActivity {
+public class GoodsDetailsActivity extends BaseActivity {
     int goodId;
     @BindView(R.id.iv_Gd_back)
     ImageView ivGdBack;
@@ -40,17 +39,30 @@ public class GoodsDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_details);
         ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
         goodId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
         if (goodId == 0) {
             finish();
         }
+        initView();
         initData();
+        setListener();
     }
 
-    private void initData() {
+    @Override
+    protected void setListener() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
         NetDao.downLoadGoodsDetails(this, goodId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
