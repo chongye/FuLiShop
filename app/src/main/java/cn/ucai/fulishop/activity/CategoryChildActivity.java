@@ -8,13 +8,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-import bean.BoutiqueBean;
 import bean.NewGoodsBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,20 +24,15 @@ import cn.ucai.fulishop.utils.L;
 import cn.ucai.fulishop.utils.OkHttpUtils;
 import cn.ucai.fulishop.views.SpaceItemDecoration;
 
-public class BoutiqueCategroyActivity extends BaseActivity {
+public class CategoryChildActivity extends AppCompatActivity {
 
-    @BindView(R.id.iv_Boutique_Categroy)
-    ImageView ivBoutiqueCategroy;
-    @BindView(R.id.tv_boutique_Categroy_name)
-    TextView tvBoutiqueCategroyName;
-    @BindView(R.id.tv_boutique_Refresh)
-    TextView tvBoutiqueRefresh;
-    @BindView(R.id.recycler_boutique_categroy)
-    RecyclerView recyclerBoutiqueCategroy;
-    @BindView(R.id.srl_boutique_categroy)
-    SwipeRefreshLayout srlBoutiqueCategroy;
+    @BindView(R.id.tvRefresh)
+    TextView tvRefresh;
+    @BindView(R.id.Recycler)
+    RecyclerView Recycler;
+    @BindView(R.id.srl)
+    SwipeRefreshLayout srl;
     int goodId;
-    String goodName;
     int mPageId = 1;
 
     Context mContext;
@@ -50,38 +42,59 @@ public class BoutiqueCategroyActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_boutique_categroy);
-        ButterKnife.bind(this);
         super.onCreate(savedInstanceState);
-        Serializable extra = getIntent().getSerializableExtra(I.Boutique.KEY_GOODS);
-        BoutiqueBean goods = (BoutiqueBean) extra;
-        goodName = goods.getName();
-        goodId = goods.getId();
-        if(goodName ==null&&goodId==0){
+        setContentView(R.layout.activity_category_child);
+        ButterKnife.bind(this);
+        goodId = getIntent().getIntExtra(I.Goods.KEY_GOODS,0);
+        L.i("goodId","id="+goodId);
+        if(goodId==0){
             finish();
         }
-        tvBoutiqueCategroyName.setText(goodName);
         initView();
         initData();
         setListener();
+
     }
-    @Override
-    protected void initData() {
+    private void initView() {
+        mContext = this;
+        mGoodsList = new ArrayList<>();
+        mAdapter = new GoodsAdapter(mContext, mGoodsList);
+        mManager = new GridLayoutManager(this, I.COLUM_NUM);
+        mManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        Recycler.setHasFixedSize(true);
+        /*mAdapter.setHasStableIds(true);加上有bug*/
+
+        Recycler.setAdapter(mAdapter);
+        Recycler.setLayoutManager(mManager);
+        Recycler.addItemDecoration(new SpaceItemDecoration(12));
+
+        srl.setColorSchemeColors(
+                getResources().getColor(R.color.google_red),
+                getResources().getColor(R.color.google_yellow),
+                getResources().getColor(R.color.google_blue),
+                getResources().getColor(R.color.google_green)
+        );
+
+    }
+
+
+    private void initData() {
         initData(I.ACTION_DOWNLOAD,mPageId);
     }
-    @Override
-    protected void setListener() {
-        srlBoutiqueCategroy.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+    private void setListener() {
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mPageId = 1;
-                srlBoutiqueCategroy.setRefreshing(true);
-                srlBoutiqueCategroy.setEnabled(true);
-                tvBoutiqueRefresh.setVisibility(View.VISIBLE);
+                srl.setRefreshing(true);
+                srl.setEnabled(true);
+                tvRefresh.setVisibility(View.VISIBLE);
                 initData(I.ACTION_PULL_DOWN,mPageId);
             }
         });
-        recyclerBoutiqueCategroy.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        Recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastPosition;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -97,13 +110,12 @@ public class BoutiqueCategroyActivity extends BaseActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                srlBoutiqueCategroy.setEnabled(mManager.findFirstVisibleItemPosition()==0);
+                srl.setEnabled(mManager.findFirstVisibleItemPosition()==0);
             }
         });
     }
-
     private void initData(final int action,int pageId) {
-        NetDao.downLoadBoutiqueCategroy(mContext, goodId, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+        NetDao.downLoadCategoryGoods(mContext, goodId, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 if(result==null){
@@ -126,8 +138,8 @@ public class BoutiqueCategroyActivity extends BaseActivity {
                         break;
                     case I.ACTION_PULL_DOWN:
                         mAdapter.initNewGoods(list);
-                        srlBoutiqueCategroy.setRefreshing(false);
-                        tvBoutiqueRefresh.setVisibility(View.GONE);
+                        srl.setRefreshing(false);
+                        tvRefresh.setVisibility(View.GONE);
                         break;
                     case I.ACTION_PULL_UP:
                         mAdapter.addNewGoods(list);
@@ -138,35 +150,9 @@ public class BoutiqueCategroyActivity extends BaseActivity {
 
             @Override
             public void onError(String error) {
-                srlBoutiqueCategroy.setRefreshing(false);
-                tvBoutiqueRefresh.setVisibility(View.GONE);
+                srl.setRefreshing(false);
+                tvRefresh.setVisibility(View.GONE);
             }
         });
-    }
-
-    @Override
-    protected void initView() {
-        mContext = this;
-        mGoodsList = new ArrayList<>();
-        mAdapter = new GoodsAdapter(mContext,mGoodsList);
-        mManager = new GridLayoutManager(this,I.COLUM_NUM);
-        mManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        recyclerBoutiqueCategroy.setHasFixedSize(true);
-        /*mAdapter.setHasStableIds(true);加上有bug*/
-
-        recyclerBoutiqueCategroy.setAdapter(mAdapter);
-        recyclerBoutiqueCategroy.setLayoutManager(mManager);
-        recyclerBoutiqueCategroy.addItemDecoration(new SpaceItemDecoration(12));
-
-        srlBoutiqueCategroy.setColorSchemeColors(
-                getResources().getColor(R.color.google_red),
-                getResources().getColor(R.color.google_yellow),
-                getResources().getColor(R.color.google_blue),
-                getResources().getColor(R.color.google_green)
-        );
-    }
-    public void onBackPressed(){
-        finish();
     }
 }

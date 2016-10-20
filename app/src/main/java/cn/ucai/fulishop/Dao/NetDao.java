@@ -3,6 +3,8 @@ package cn.ucai.fulishop.Dao;
 import android.content.Context;
 
 import bean.BoutiqueBean;
+import bean.CategoryChildBean;
+import bean.CategoryGroupBean;
 import bean.GoodsDetailsBean;
 import bean.NewGoodsBean;
 import cn.ucai.fulishop.utils.I;
@@ -54,5 +56,33 @@ public class NetDao {
                 .targetClass(NewGoodsBean[].class)
                 .execute(listener);
 
+    }
+    /*下载分类首界面
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/findCategoryGroup*/
+    public static void downLoadCategoryGroup(Context context, OkHttpUtils.OnCompleteListener<CategoryGroupBean[]>listener){
+        OkHttpUtils<CategoryGroupBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_GROUP)
+                .targetClass(CategoryGroupBean[].class)
+                .execute(listener);
+    }
+    /*下载分类子界面
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/findCategoryChildren?parent_id=344*/
+    public static void downLoadCategoryChild(Context context, int parentId, OkHttpUtils.OnCompleteListener<CategoryChildBean[]> listener){
+        OkHttpUtils<CategoryChildBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
+                .addParam(I.CategoryChild.PARENT_ID,parentId+"")
+                .targetClass(CategoryChildBean[].class)
+                .execute(listener);
+    }
+    /*下载分类二级界面
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/findGoodsDetails?cat_id=345&page_id=1&page_size=10*/
+    public static void downLoadCategoryGoods(Context context,int catId,int pageId,OkHttpUtils.OnCompleteListener<NewGoodsBean[]> listener){
+        OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_GOODS_DETAILS)
+                .addParam(I.GoodsDetails.KEY_CAT_ID,String.valueOf(catId))
+                .addParam(I.PAGE_ID,String.valueOf(pageId))
+                .addParam(I.PAGE_SIZE,I.PAGE_SIZE_DEFAULT+"")
+                .targetClass(NewGoodsBean[].class)
+                .execute(listener);
     }
 }
