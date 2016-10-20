@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import bean.NewGoodsBean;
 import butterknife.BindView;
@@ -31,6 +34,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     String footer;
 
     boolean isMore;
+
+    int sort;
 
     public GoodsAdapter(Context mContext, ArrayList<NewGoodsBean> goods) {
         this.mContext = mContext;
@@ -60,6 +65,41 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.footer = footer;
         notifyDataSetChanged();
     }
+    public void setSort(int sort){
+        this.sort = sort;
+        sortBy();
+        notifyDataSetChanged();
+    }
+
+    private void sortBy() {
+        Collections.sort(goods, new Comparator<NewGoodsBean>() {
+            int result = 0;
+            @Override
+            public int compare(NewGoodsBean left, NewGoodsBean right) {
+                switch (sort){
+                    case I.SORT_BY_PRICE_ASC:
+                        result = getPrice(left.getCurrencyPrice())-getPrice(right.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result = getPrice(right.getCurrencyPrice())-getPrice(left.getCurrencyPrice());
+                        break;
+                    // 左边减右边，如果是正数，左边大，交换位置，否者不交换，次时右边大，升序
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result = (int) (Long.valueOf(left.getAddTime())-Long.valueOf(right.getAddTime()));
+                        break;
+                    // 右边减左边，正数，右边大，交换位置，此时左边大降序
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result = (int) (Long.valueOf(right.getAddTime())-Long.valueOf(left.getAddTime()));
+                        break;
+                }
+                return result;
+            }
+            private int getPrice(String price){
+                return Integer.valueOf(price.substring(price.indexOf("￥")+1));
+            }
+        });
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

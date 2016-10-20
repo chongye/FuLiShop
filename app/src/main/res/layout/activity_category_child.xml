@@ -7,6 +7,58 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/main_orange">
+        <ImageView
+            android:id="@+id/iv_Child_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/back_nomal"/>
+        <cn.ucai.fulishop.views.CatChildFilterButton
+            android:id="@+id/btnCatChildFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="10dp"
+            android:drawableRight="@drawable/arrow2_up"
+            android:background="@null"
+            android:textColor="@color/white"
+            android:text="分类"/>
     </RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/orange"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="价格排序"
+            android:gravity="center"
+            android:textSize="20sp"/>
+        <ImageView
+            android:id="@+id/iv_price"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_order_down"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="时间排序"
+            android:textSize="20sp"/>
+        <ImageView
+            android:id="@+id/iv_time"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_order_down"/>
+    </LinearLayout>
     <include layout="@layout/fragment_new_goods"/>
 </LinearLayout>

@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import bean.CategoryChildBean;
 import bean.NewGoodsBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +38,8 @@ public class CategoryChildActivity extends AppCompatActivity {
     SwipeRefreshLayout srl;
     int goodId;
     int mPageId = 1;
+    String mGoodsName;
+    ArrayList<CategoryChildBean> mChildList;
 
     Context mContext;
     ArrayList<NewGoodsBean> mGoodsList;
@@ -50,17 +54,23 @@ public class CategoryChildActivity extends AppCompatActivity {
     @BindView(R.id.iv_time)
     ImageView ivTime;
 
-    int sort ;
+    int sort;
     boolean isPriceAsc;
     boolean isAddTimeAsc;
+    @BindView(R.id.iv_Child_back)
+    ImageView ivChildBack;
+    @BindView(R.id.btnCatChildFilter)
+    cn.ucai.fulishop.views.CatChildFilterButton btnCatChildFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_child);
         ButterKnife.bind(this);
-        goodId = getIntent().getIntExtra(I.Goods.KEY_GOODS, 0);
-        L.i("goodId", "id=" + goodId);
+        goodId = getIntent().getIntExtra(I.Goods.KEY_GOODS_ID, 0);
+        mGoodsName = getIntent().getStringExtra(I.Goods.KEY_GOODS_NAME);
+        mChildList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.Goods.KEY_GOODS);
+        /*Log.i("main",mChildList.get(0).getName());*/
         if (goodId == 0) {
             finish();
         }
@@ -83,6 +93,7 @@ public class CategoryChildActivity extends AppCompatActivity {
         Recycler.setAdapter(mAdapter);
         Recycler.setLayoutManager(mManager);
         Recycler.addItemDecoration(new SpaceItemDecoration(12));
+        btnCatChildFilter.setText(mGoodsName);
 
         srl.setColorSchemeColors(
                 getResources().getColor(R.color.google_red),
@@ -96,6 +107,7 @@ public class CategoryChildActivity extends AppCompatActivity {
 
     private void initData() {
         initData(I.ACTION_DOWNLOAD, mPageId);
+        btnCatChildFilter.setOnCatFilterClickListener(mGoodsName, mChildList);
     }
 
     private void setListener() {
@@ -174,25 +186,26 @@ public class CategoryChildActivity extends AppCompatActivity {
             }
         });
     }
-//  实现排序后，保证刷新排序不变，需要在刷新中和initData中加mAdapter.setSort(sort)方法
+
+    //  实现排序后，保证刷新排序不变，需要在刷新中和initData中加mAdapter.setSort(sort)方法
     @OnClick({R.id.tv_price, R.id.tv_time})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_price:
-                if(isPriceAsc){
+                if (isPriceAsc) {
                     sort = I.SORT_BY_PRICE_ASC;
                     ivPrice.setImageResource(R.drawable.arrow_order_up);
-                }else {
+                } else {
                     sort = I.SORT_BY_PRICE_DESC;
                     ivPrice.setImageResource(R.drawable.arrow_order_down);
                 }
                 isPriceAsc = !isPriceAsc;
                 break;
             case R.id.tv_time:
-                if(isAddTimeAsc){
+                if (isAddTimeAsc) {
                     sort = I.SORT_BY_ADDTIME_ASC;
                     ivTime.setImageResource(R.drawable.arrow_order_up);
-                }else {
+                } else {
                     sort = I.SORT_BY_ADDTIME_DESC;
                     ivTime.setImageResource(R.drawable.arrow_order_down);
                 }

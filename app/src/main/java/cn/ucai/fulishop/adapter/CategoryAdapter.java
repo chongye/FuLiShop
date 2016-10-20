@@ -84,6 +84,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             convertView.setTag(holder);
         } else {
             holder = (GroupViewHolder) convertView.getTag();
+        }
             holder.mGroupName.setText(mGroupList.get(groupPosition).getName());
             ImageLoader.downloadImg(mContext, holder.mIvGroup, mGroupList.get(groupPosition).getImageUrl());
             if (isExpanded) {
@@ -91,12 +92,11 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             } else {
                 holder.mIvExpand.setImageResource(R.mipmap.expand_on);
             }
-        }
         return convertView;
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder = null;
         if (convertView == null) {
             holder = new ChildViewHolder();
@@ -107,16 +107,17 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
+        }
             holder.mChildName.setText(mChildList.get(groupPosition).get(childPosition).getName());
             ImageLoader.downloadImg(mContext, holder.mIvChild, mChildList.get(groupPosition).get(childPosition).getImageUrl());
             final CategoryChildBean categoryChild = mChildList.get(groupPosition).get(childPosition);
             holder.layoutCategoryChild.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MFGT.startCategoryChildActivity(mContext,categoryChild.getId());
+                    MFGT.startCategoryChildActivity(mContext,categoryChild.getId(),mGroupList.get(groupPosition).getName(),
+                            mChildList.get(groupPosition));
                 }
             });
-        }
         return convertView;
     }
 

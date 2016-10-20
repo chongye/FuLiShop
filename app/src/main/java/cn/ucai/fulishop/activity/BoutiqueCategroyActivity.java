@@ -111,9 +111,9 @@ public class BoutiqueCategroyActivity extends BaseActivity {
                 }
                 ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                 mAdapter.setMore(result!=null&&result.length>0);
-               /* if(result.length%2==1){
+                if(result.length%2==1){
                     list.add(new NewGoodsBean());
-                }*/
+                }
                 if(!mAdapter.isMore()){
                     if(action == I.ACTION_PULL_UP){
                         mAdapter.setFooter(getResources().getString(R.string.no_more));
