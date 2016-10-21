@@ -10,8 +10,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.utils.MFGT;
+import cn.ucai.fulishop.views.DisplayUtils;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.et_UserName)
     EditText etUserName;
@@ -20,9 +21,25 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+        DisplayUtils.initBack(this);
+
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
     @OnClick({R.id.bt_login, R.id.bt_register})

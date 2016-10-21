@@ -3,7 +3,6 @@ package cn.ucai.fulishop.activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
-
 import cn.ucai.fulishop.utils.MFGT;
 
 /**
@@ -11,8 +10,8 @@ import cn.ucai.fulishop.utils.MFGT;
  */
 public abstract class BaseActivity extends AppCompatActivity{
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initView();
         initData();
         setListener();
