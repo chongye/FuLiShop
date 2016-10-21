@@ -9,6 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.MFGT;
 import cn.ucai.fulishop.views.DisplayUtils;
 
@@ -18,16 +19,19 @@ public class LoginActivity extends BaseActivity {
     EditText etUserName;
     @BindView(R.id.et_password)
     EditText etPassword;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        userName = getIntent().getStringExtra(I.User.USER_NAME);
         super.onCreate(savedInstanceState);
     }
 
     @Override
     protected void initView() {
+        etUserName.setText(userName);
 
     }
 

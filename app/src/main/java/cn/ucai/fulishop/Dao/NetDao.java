@@ -7,7 +7,9 @@ import bean.CategoryChildBean;
 import bean.CategoryGroupBean;
 import bean.GoodsDetailsBean;
 import bean.NewGoodsBean;
+import bean.Result;
 import cn.ucai.fulishop.utils.I;
+import cn.ucai.fulishop.utils.MD5;
 import cn.ucai.fulishop.utils.OkHttpUtils;
 
 /**
@@ -83,6 +85,19 @@ public class NetDao {
                 .addParam(I.PAGE_ID,String.valueOf(pageId))
                 .addParam(I.PAGE_SIZE,I.PAGE_SIZE_DEFAULT+"")
                 .targetClass(NewGoodsBean[].class)
+                .execute(listener);
+    }
+    /*注册用户
+    http://101.251.196.90:8000/FuLiCenterServerV2.0/register?m_user_name=123&m_user_nick=123&m_user_password=122
+    * */
+    public static void register(Context context,String username,String nick,String password,OkHttpUtils.OnCompleteListener<Result> listener){
+        OkHttpUtils<Result> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_REGISTER)
+                .addParam(I.User.USER_NAME,username)
+                .addParam(I.User.NICK,nick)
+                .addParam(I.User.PASSWORD, MD5.getMessageDigest(password))
+                .targetClass(Result.class)
+                .post()
                 .execute(listener);
     }
 }

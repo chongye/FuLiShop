@@ -64,5 +64,13 @@ public class MFGT {
     public static void gotoLoginActivity(Context context){
         Intent intent = new Intent(context, LoginActivity.class);
         startActivity(context,intent);
+        finish((Activity) context);
+    }
+    /*跳转到登录界面*/
+    public static void gotoLoginActivity(Context context,String name){
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(I.User.USER_NAME,name);
+        startActivity(context,intent);
+        finish((Activity) context);
     }
 }
