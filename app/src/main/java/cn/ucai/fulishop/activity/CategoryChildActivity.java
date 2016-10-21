@@ -67,10 +67,10 @@ public class CategoryChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_child);
         ButterKnife.bind(this);
-        goodId = getIntent().getIntExtra(I.Goods.KEY_GOODS_ID, 0);
-        mGoodsName = getIntent().getStringExtra(I.Goods.KEY_GOODS_NAME);
-        mChildList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.Goods.KEY_GOODS);
-        /*Log.i("main",mChildList.get(0).getName());*/
+        goodId = getIntent().getIntExtra(I.CategoryChild.CAT_ID, 0);
+        mGoodsName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        mChildList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.ID);
+        Log.i("main","long:"+mChildList.size());
         if (goodId == 0) {
             finish();
         }
