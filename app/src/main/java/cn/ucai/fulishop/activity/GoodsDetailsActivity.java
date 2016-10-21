@@ -15,6 +15,7 @@ import cn.ucai.fulishop.Dao.NetDao;
 import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.utils.CommonUtils;
 import cn.ucai.fulishop.utils.I;
+import cn.ucai.fulishop.utils.L;
 import cn.ucai.fulishop.utils.MFGT;
 import cn.ucai.fulishop.utils.OkHttpUtils;
 import cn.ucai.fulishop.views.FlowIndicator;
@@ -41,14 +42,12 @@ public class GoodsDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_goods_details);
         ButterKnife.bind(this);
-        super.onCreate(savedInstanceState);
         goodId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
+        L.e("main","details:"+goodId);
         if (goodId == 0) {
             finish();
         }
-        initView();
-        initData();
-        setListener();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
