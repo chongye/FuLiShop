@@ -17,6 +17,7 @@ import cn.ucai.fulishop.fragment.CartsFragment;
 import cn.ucai.fulishop.fragment.CategoryFragment;
 import cn.ucai.fulishop.fragment.NewGoodsFragment;
 import cn.ucai.fulishop.fragment.PersonalFragment;
+import cn.ucai.fulishop.utils.MFGT;
 
 public class MainActivity extends AppCompatActivity {
     RadioButton mNewGoods,mBoutique,mCategory,mCart,mPersonal;
@@ -94,7 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 indext = 3;
                 break;
             case R.id.rb_Personal:
-                indext = 4;
+                if(FuLiShopApplication.getInstance().getUserName()==null){
+                    MFGT.gotoLoginActivity(this);
+                }else {
+                    indext = 4;
+                }
                 break;
             default:
                 indext = 0;

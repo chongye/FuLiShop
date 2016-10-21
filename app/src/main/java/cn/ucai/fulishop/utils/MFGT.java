@@ -13,6 +13,7 @@ import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.activity.BoutiqueCategroyActivity;
 import cn.ucai.fulishop.activity.CategoryChildActivity;
 import cn.ucai.fulishop.activity.GoodsDetailsActivity;
+import cn.ucai.fulishop.activity.LoginActivity;
 import cn.ucai.fulishop.activity.RegisterActivity;
 
 
@@ -55,7 +56,13 @@ public class MFGT {
         ((Activity)context).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
     /*跳转到注册界面*/
-    public static void startRegisterActivity(Context context){
+    public static void gotoRegisterActivity(Context context){
         Intent intent = new Intent(context, RegisterActivity.class);
+        startActivity(context,intent);
+    }
+    /*跳转到登录界面*/
+    public static void gotoLoginActivity(Context context){
+        Intent intent = new Intent(context, LoginActivity.class);
+        startActivity(context,intent);
     }
 }
