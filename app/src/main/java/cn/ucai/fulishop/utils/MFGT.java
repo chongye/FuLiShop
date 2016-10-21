@@ -13,6 +13,7 @@ import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.activity.BoutiqueCategroyActivity;
 import cn.ucai.fulishop.activity.CategoryChildActivity;
 import cn.ucai.fulishop.activity.GoodsDetailsActivity;
+import cn.ucai.fulishop.activity.RegisterActivity;
 
 
 public class MFGT {
@@ -42,15 +43,19 @@ public class MFGT {
         intent.putExtra(I.Boutique.KEY_GOODS,goods);
         startActivity(context,intent);
     }
-    public static void startCategoryChildActivity(Context context, int cartId, String categroyName, ArrayList<CategoryChildBean> list){
+    public static void startCategoryChildActivity(Context context, int catId, String groupName, ArrayList<CategoryChildBean> list){
         Intent intent = new Intent(context, CategoryChildActivity.class);
-        intent.putExtra(I.Goods.KEY_GOODS_ID,cartId);
-        intent.putExtra(I.Goods.KEY_GOODS_NAME,categroyName);
-        intent.putExtra(I.Goods.KEY_GOODS,list);
+        intent.putExtra(I.CategoryChild.CAT_ID,catId);
+        intent.putExtra(I.CategoryGroup.NAME,groupName);
+        intent.putExtra(I.CategoryChild.ID,list);
         startActivity(context,intent);
     }
     public static void startActivity(Context context,Intent intent){
         context.startActivity(intent);
         ((Activity)context).overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
+    /*跳转到注册界面*/
+    public static void startRegisterActivity(Context context){
+        Intent intent = new Intent(context, RegisterActivity.class);
     }
 }
