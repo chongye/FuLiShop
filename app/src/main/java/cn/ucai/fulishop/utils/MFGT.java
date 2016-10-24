@@ -61,10 +61,9 @@ public class MFGT {
         startActivity(context,intent);
     }
     /*跳转到登录界面*/
-    public static void gotoLoginActivity(Context context){
+    public static void gotoLoginActivity(Activity context){
         Intent intent = new Intent(context, LoginActivity.class);
-        startActivity(context,intent);
-        finish((Activity) context);
+        startActivityForResult(context,intent,I.REQUEST_CODE_REQUEST);
     }
     /*跳转到登录界面*/
     public static void gotoLoginActivity(Context context,String name){
@@ -72,5 +71,9 @@ public class MFGT {
         intent.putExtra(I.User.USER_NAME,name);
         startActivity(context,intent);
         finish((Activity) context);
+    }
+    public static void startActivityForResult(Activity context,Intent intent,int requestCode){
+        context.startActivityForResult(intent,requestCode);
+        context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
     }
 }

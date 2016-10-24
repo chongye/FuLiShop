@@ -1,6 +1,7 @@
 package cn.ucai.fulishop;
 
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import cn.ucai.fulishop.fragment.CartsFragment;
 import cn.ucai.fulishop.fragment.CategoryFragment;
 import cn.ucai.fulishop.fragment.NewGoodsFragment;
 import cn.ucai.fulishop.fragment.PersonalFragment;
+import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.MFGT;
 
 public class MainActivity extends AppCompatActivity {
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 indext = 3;
                 break;
             case R.id.rb_Personal:
-                if(FuLiShopApplication.getInstance().getUserName()==null){
+                if(FuLiShopApplication.getUser()==null){
                     MFGT.gotoLoginActivity(this);
                 }else {
                     indext = 4;
@@ -130,5 +132,19 @@ public class MainActivity extends AppCompatActivity {
         }
         ft.show(fragment).hide(fragments.get(currentIndext)).commit();
         currentIndext = indext;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        switchFragment(indext);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == I.REQUEST_CODE_REQUEST && FuLiShopApplication.getUser()!=null){
+            indext = 4;
+        }
     }
 }

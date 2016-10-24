@@ -102,12 +102,12 @@ public class NetDao {
     }
     /*用户登录
     * http://101.251.196.90:8000/FuLiCenterServerV2.0/login?m_user_name=yechong&m_user_password=1994*/
-    public static void login(Context context,String username,String password,OkHttpUtils.OnCompleteListener<Result> listener){
-        OkHttpUtils<Result> utils = new OkHttpUtils<>(context);
+    public static void login(Context context,String username,String password,OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_LOGIN)
                 .addParam(I.User.USER_NAME,username)
                 .addParam(I.User.PASSWORD,MD5.getMessageDigest(password))
-                .targetClass(Result.class)
+                .targetClass(String.class)
                 .execute(listener);
     }
 }
