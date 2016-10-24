@@ -4,20 +4,29 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 
+import bean.UserAvatar;
+import cn.ucai.fulishop.Dao.UserAvatarDao;
+import cn.ucai.fulishop.FuLiShopApplication;
 import cn.ucai.fulishop.MainActivity;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.utils.L;
 import cn.ucai.fulishop.utils.MFGT;
+import cn.ucai.fulishop.utils.SharePrefrenceUtils;
 
 public class SplashActivity extends AppCompatActivity {
     static final long sleepTime = 2000;
+    SplashActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mContext = this;
     }
 
     @Override
@@ -26,6 +35,16 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                L.e("SplashActivity","SplashActivity......");
+                UserAvatar user = FuLiShopApplication.getUser();
+                String userName = SharePrefrenceUtils.getInstance(mContext).getUser();
+                if(user==null&&userName!=null){
+                    UserAvatarDao userAvatar = new UserAvatarDao(mContext);
+                    user = userAvatar.getUserAvatar(userName);
+                    if(user!=null){
+                        FuLiShopApplication.setUser(user);
+                    }
+                }
                 MFGT.gotoMainActivity(SplashActivity.this);
                 finish();
             }

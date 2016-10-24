@@ -3,6 +3,8 @@ package cn.ucai.fulishop;
 import android.app.Application;
 import android.content.Context;
 
+import bean.UserAvatar;
+
 /**
  * Created by Administrator on 2016/10/17.
  */
@@ -11,14 +13,23 @@ public class FuLiShopApplication extends Application{
     private static FuLiShopApplication instance;
 
     // 判断个人中心是否有用户，为空则跳到登录界面
-    String userName;
+    private static String userName;
+    private static UserAvatar user;
 
-    public String getUserName() {
+    public static UserAvatar getUser() {
+        return user;
+    }
+
+    public static void setUser(UserAvatar user) {
+        FuLiShopApplication.user = user;
+    }
+
+    public static String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public static void setUserName(String userName) {
+        FuLiShopApplication.userName = userName;
     }
 
     @Override
