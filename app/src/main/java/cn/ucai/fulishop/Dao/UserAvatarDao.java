@@ -37,6 +37,9 @@ public class UserAvatarDao {
         return DBManager.getInstance().getUser(username);
     }
     public boolean updateUserAvatar(UserAvatar user){
-        return false;
+        return DBManager.getInstance().updateUser(user);
+    }
+    public boolean deleteUserAvatar(UserAvatar user){
+        return DBManager.getInstance().deletUser(user);
     }
 }

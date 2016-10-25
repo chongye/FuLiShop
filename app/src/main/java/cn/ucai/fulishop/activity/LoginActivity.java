@@ -101,11 +101,11 @@ public class LoginActivity extends BaseActivity {
                  Gson gson = new Gson();
                  String json = result.getRetData().toString();
                  UserAvatar user = gson.fromJson(json,UserAvatar.class);*/
-                CommonUtils.showShortToast(user.toString());
                 UserAvatarDao userDao = new UserAvatarDao(mContext);
                 userDao.saveUserAvatar(user);
                 boolean isSuccess = userDao.saveUserAvatar(user);
                 if(isSuccess){
+                    CommonUtils.showShortToast(user.toString());
                     SharePrefrenceUtils.getInstance(mContext).saveUser(user.getMuserName());
                     FuLiShopApplication.setUser(user);
                     setResult(I.REQUEST_CODE_REQUEST);
@@ -117,7 +117,8 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onError(String error) {
-
+                CommonUtils.showLongToast(R.string.update_user_avatar_fail);
+                L.e("error="+error);
             }
         });
     }/*private String muserName;

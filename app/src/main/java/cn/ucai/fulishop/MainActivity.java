@@ -137,7 +137,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        switchFragment(indext);
+        if(FuLiShopApplication.getUser()==null&&indext!=4){
+            indext = currentIndext;
+        }else if(FuLiShopApplication.getUser()==null&&indext==4){
+            indext =0;
+        }
+            switchFragment(indext);
+            setRadioButon();
     }
 
     @Override

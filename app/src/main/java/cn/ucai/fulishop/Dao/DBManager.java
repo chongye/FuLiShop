@@ -66,11 +66,20 @@ public class DBManager {
     public synchronized boolean updateUser(UserAvatar user){
         int result = -1;
         SQLiteDatabase database = mHelper.getWritableDatabase();
-        String sql = UserAvatarDao.USER_NICK +" = ?";
+        String sql = UserAvatarDao.USER_NAME +"=?";
         ContentValues values = new ContentValues();
         values.put(UserAvatarDao.USER_NICK,user.getMuserNick());
         if(database.isOpen()){
             result = database.update(UserAvatarDao.USER_TABLE,values,sql,new String[]{user.getMuserName()});
+        }
+        return result>0;
+    }
+    public synchronized boolean deletUser(UserAvatar user){
+        int result = -1;
+       SQLiteDatabase database = mHelper.getWritableDatabase();
+        String sql = UserAvatarDao.USER_NAME + " = ?";
+        if(database.isOpen()){
+            result = database.delete(UserAvatarDao.USER_TABLE, sql, new String[]{user.getMuserName()});
         }
         return result>0;
     }
