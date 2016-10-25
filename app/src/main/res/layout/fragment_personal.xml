@@ -15,7 +15,7 @@
             android:src="@drawable/center_card_coupon1"
             android:layout_alignParentRight="true"/>
         <TextView
-            android:id="@+id/person_"
+            android:id="@+id/person_set"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/person_message"

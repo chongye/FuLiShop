@@ -20,7 +20,7 @@ import cn.ucai.fulishop.utils.SharePrefrenceUtils;
 
 public class PersonalFragment extends BaseFragment {
     Context mContext;
-    @BindView(R.id.person_)
+    @BindView(R.id.person_set)
     TextView person;
     @BindView(R.id.person_avatar)
     ImageView personAvatar;
@@ -59,12 +59,24 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-
+        if (FuLiShopApplication.getUser() == null) {
+            UserAvatar user = FuLiShopApplication.getUser();
+            personName.setText(user.getMuserNick());
+        }
     }
 
-    @OnClick(R.id.person_)
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (FuLiShopApplication.getUser() != null) {
+            UserAvatar user = FuLiShopApplication.getUser();
+            personName.setText(user.getMuserNick());
+            ImageLoader.setAvatar(ImageLoader.getUrl(user), mContext, personAvatar);
+        }
+    }
+
+    @OnClick(R.id.person_set)
     public void onClick() {
-        SharePrefrenceUtils.getInstance(mContext).removeUser();
-        FuLiShopApplication.setUser(null);
+        MFGT.startPersonActivity(mContext);
     }
 }
