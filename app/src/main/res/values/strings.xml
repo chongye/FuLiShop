@@ -22,4 +22,6 @@
     <string name="register_fail_exists">user name exists</string>
     <string name="login">Login</string>
     <string name="user_database_error">user database error</string>
+    <string name="update_user_avatar_fail">update user avatar fail</string>
+    <string name="update_user_avatar_success">update user avatar success</string>
 </resources>

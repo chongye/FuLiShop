@@ -2,12 +2,15 @@ package cn.ucai.fulishop.Dao;
 
 import android.content.Context;
 
+import java.io.File;
+
 import bean.BoutiqueBean;
 import bean.CategoryChildBean;
 import bean.CategoryGroupBean;
 import bean.GoodsDetailsBean;
 import bean.NewGoodsBean;
 import bean.Result;
+import bean.UserAvatar;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.MD5;
 import cn.ucai.fulishop.utils.OkHttpUtils;
@@ -108,6 +111,26 @@ public class NetDao {
                 .addParam(I.User.USER_NAME,username)
                 .addParam(I.User.PASSWORD,MD5.getMessageDigest(password))
                 .targetClass(String.class)
+                .execute(listener);
+    }
+    /*http://101.251.196.90:8000/FuLiCenterServerV2.0/updateNick?m_user_name=yechong&m_user_nick=wys*/
+    public static void updateNick(Context context,String userName,String nick,OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utlis = new OkHttpUtils<>(context);
+        utlis.setRequestUrl(I.REQUEST_UPDATE_USER_NICK)
+                .addParam(I.User.USER_NAME,userName)
+                .addParam(I.User.NICK,nick)
+                .targetClass(String.class)
+                .execute(listener);
+    }
+    /*http://101.251.196.90:8000/FuLiCenterServerV2.0/updateAvatar?name_or_hxid=yechong&avatarType=user_avatar*/
+    public static void updateAvatar(Context context, UserAvatar user, File file ,OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
+                .addParam(I.NAME_OR_HXID,user.getMuserName())
+                .addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH)
+                .addFile2(file)
+                .targetClass(String.class)
+                .post()
                 .execute(listener);
     }
 }

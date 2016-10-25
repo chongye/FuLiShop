@@ -14,7 +14,9 @@ import cn.ucai.fulishop.activity.BoutiqueCategroyActivity;
 import cn.ucai.fulishop.activity.CategoryChildActivity;
 import cn.ucai.fulishop.activity.GoodsDetailsActivity;
 import cn.ucai.fulishop.activity.LoginActivity;
+import cn.ucai.fulishop.activity.PersonActivity;
 import cn.ucai.fulishop.activity.RegisterActivity;
+import cn.ucai.fulishop.activity.UpdateNickActivity;
 
 
 public class MFGT {
@@ -75,5 +77,16 @@ public class MFGT {
     public static void startActivityForResult(Activity context,Intent intent,int requestCode){
         context.startActivityForResult(intent,requestCode);
         context.overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+    }
+    /*跳转到个人资料*/
+    public static void startPersonActivity(Context context){
+        Intent intent = new Intent(context, PersonActivity.class);
+        startActivity(context,intent);
+    }
+    /*跳转到昵称修改界面*/
+    public static void startUpdateNickActivity(Activity context){
+        Intent intent = new Intent(context, UpdateNickActivity.class);
+        /*intent.putExtra(I.User.NICK,nick);*/
+        startActivityForResult(context,intent,I.REQUEST_CODE_REQUEST);
     }
 }
