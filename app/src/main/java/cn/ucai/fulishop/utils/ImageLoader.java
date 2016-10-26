@@ -362,7 +362,8 @@ public class ImageLoader {
    // http://101.251.196.90:8000/FuLiCenterServerV2.0/downloadAvatar?name_or_hxid=yechong&avatarType=user_avatar&m_avatar_suffix=.jpg&width=60&height=60
     public static String getUrl(UserAvatar user){
         String url = I.SERVER_ROOT+I.REQUEST_DOWNLOAD_AVATAR+I.QUESTION+I.NAME_OR_HXID+I.EQUAL+user.getMuserName()
-                +I.AND+I.AVATAR_TYPE+I.EQUAL+"user_avatar"+I.AND+I.AVATAR_SUFFIX+I.EQUAL+user.getMavatarSuffix()+I.AND+"width=60&height=60";
+                +I.AND+I.AVATAR_TYPE+I.EQUAL+"user_avatar"+I.AND+I.AVATAR_SUFFIX+I.EQUAL+user.getMavatarSuffix()+I.AND+"width=60&height=60"
+                +I.AND+user.getMavatarLastUpdateTime();
         L.e("Url","Url+"+url);
         return url;
 
