@@ -15,10 +15,11 @@ import bean.UserAvatar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.ucai.fulishop.Dao.NetDao;
 import cn.ucai.fulishop.FuLiShopApplication;
 import cn.ucai.fulishop.R;
-import cn.ucai.fulishop.adapter.CollectAdaptar;
 import cn.ucai.fulishop.utils.CommonUtils;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.L;
@@ -51,6 +52,9 @@ public class GoodsDetailsActivity extends BaseActivity {
     Context mContext;
     UserAvatar user;
     boolean isCollected;
+
+    GoodsDetailsBean goodsDetailsBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_goods_details);
@@ -79,6 +83,7 @@ public class GoodsDetailsActivity extends BaseActivity {
         NetDao.downLoadGoodsDetails(this, goodId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
+                goodsDetailsBean = result;
                 if (result == null) {
                     finish();
                 }
@@ -140,15 +145,15 @@ public class GoodsDetailsActivity extends BaseActivity {
     }
 
     //  判断是否添加
-    private void isCollected(){
+    private void isCollected() {
         user = FuLiShopApplication.getUser();
-        if(user == null){
+        if (user == null) {
             isCollected = false;
-        }else {
+        } else {
             NetDao.isCollected(mContext, goodId, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
-                    if(result!=null && result.isSuccess()){
+                    if (result != null && result.isSuccess()) {
                         isCollected = true;
                         setGoodsCollectStatu();
                     }
@@ -163,10 +168,11 @@ public class GoodsDetailsActivity extends BaseActivity {
         }
         setGoodsCollectStatu();
     }
-    private void setGoodsCollectStatu(){
-        if(isCollected){
+
+    private void setGoodsCollectStatu() {
+        if (isCollected) {
             ivGdCollect.setImageResource(R.mipmap.bg_collect_out);
-        }else {
+        } else {
             ivGdCollect.setImageResource(R.mipmap.bg_collect_in);
         }
     }
@@ -174,14 +180,14 @@ public class GoodsDetailsActivity extends BaseActivity {
     // 商品的收藏，收藏过得为红色，为收藏的为白，为登录也为白色
     @OnClick(R.id.iv_Gd_collect)
     public void CollectGoods() {
-        if(user == null){
+        if (user == null) {
             MFGT.gotoLoginActivity((Activity) mContext);
-        }else{
-            if(isCollected){
+        } else {
+            if (isCollected) {
                 NetDao.deletCollects(mContext, goodId, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                     @Override
                     public void onSuccess(MessageBean result) {
-                        if(result != null&&result.isSuccess()){
+                        if (result != null && result.isSuccess()) {
                             isCollected = !isCollected;
                             setGoodsCollectStatu();
                             CommonUtils.showShortToast("取消收藏");
@@ -193,7 +199,7 @@ public class GoodsDetailsActivity extends BaseActivity {
 
                     }
                 });
-            }else{
+            } else {
                 NetDao.addCollects(mContext, goodId, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                     @Override
                     public void onSuccess(MessageBean result) {
@@ -210,5 +216,40 @@ public class GoodsDetailsActivity extends BaseActivity {
             }
         }
 
+    }
+
+    @OnClick(R.id.iv_Gd_share)
+    public void shareGoods() {
+        showShare();
+    }
+    private void showShare() {
+        ShareSDK.initSDK(this);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(goodsDetailsBean.getGoodsName());
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl(goodsDetailsBean.getShareUrl());
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(goodsDetailsBean.getGoodsBrief());
+        //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
+        oks.setImageUrl(goodsDetailsBean.getGoodsImg());
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite("ShareSDK");
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://sharesdk.cn");
+
+// 启动分享GUI
+        oks.show(this);
     }
 }
