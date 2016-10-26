@@ -7,7 +7,9 @@ import java.io.File;
 import bean.BoutiqueBean;
 import bean.CategoryChildBean;
 import bean.CategoryGroupBean;
+import bean.CollectBean;
 import bean.GoodsDetailsBean;
+import bean.MessageBean;
 import bean.NewGoodsBean;
 import bean.Result;
 import bean.UserAvatar;
@@ -131,6 +133,44 @@ public class NetDao {
                 .addFile2(file)
                 .targetClass(String.class)
                 .post()
+                .execute(listener);
+    }
+
+    public static void syncUserInfo(Context context,String userName,OkHttpUtils.OnCompleteListener<String> listener){
+        OkHttpUtils<String> utlis = new OkHttpUtils<>(context);
+        utlis.setRequestUrl(I.REQUEST_FIND_USER)
+                .addParam(I.User.USER_NAME,userName)
+                .targetClass(String.class)
+                .execute(listener);
+    }
+    /*查找收藏宝贝的数量
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/findCollectCount?userName=yechong*/
+    public static void getCollectCount(Context context, String user, OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
+                .addParam(I.Collect.USER_NAME,user)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+    /*下载收藏商品的数据
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/findCollects?userName=yulin&page_id=1&page_size=10*/
+    public static void downLoadCollects(Context context, String userName, int pageId, OkHttpUtils.OnCompleteListener<CollectBean[]> listener){
+        OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.Collect.USER_NAME,userName)
+                .addParam(I.PAGE_ID,String.valueOf(pageId))
+                .addParam(I.PAGE_SIZE,String.valueOf(I.PAGE_SIZE_DEFAULT))
+                .targetClass(CollectBean[].class)
+                .execute(listener);
+    }
+    /*删除收藏的商品
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/deleteCollect?goods_id=20&userName=userName*/
+    public static void deletCollects(Context context,int goodId,String userName,OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_COLLECT)
+                .addParam(I.Collect.GOODS_ID,String.valueOf(goodId))
+                .addParam(I.Collect.USER_NAME,userName)
+                .targetClass(MessageBean.class)
                 .execute(listener);
     }
 }

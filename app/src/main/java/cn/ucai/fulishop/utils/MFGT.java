@@ -12,6 +12,7 @@ import cn.ucai.fulishop.MainActivity;
 import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.activity.BoutiqueCategroyActivity;
 import cn.ucai.fulishop.activity.CategoryChildActivity;
+import cn.ucai.fulishop.activity.CollectActivity;
 import cn.ucai.fulishop.activity.GoodsDetailsActivity;
 import cn.ucai.fulishop.activity.LoginActivity;
 import cn.ucai.fulishop.activity.PersonActivity;
@@ -88,5 +89,10 @@ public class MFGT {
         Intent intent = new Intent(context, UpdateNickActivity.class);
         /*intent.putExtra(I.User.NICK,nick);*/
         startActivityForResult(context,intent,I.REQUEST_CODE_REQUEST);
+    }
+    /*跳转到收藏界面*/
+    public static void gotoCollects(Context context){
+        Intent intent = new Intent(context, CollectActivity.class);
+        startActivity(context,intent);
     }
 }
