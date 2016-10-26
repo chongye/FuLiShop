@@ -77,6 +77,12 @@ public class CollectActivity extends BaseActivity {
         dowmLoadCollect(I.ACTION_DOWNLOAD,mPageId);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        dowmLoadCollect(I.ACTION_DOWNLOAD,1);
+    }
+
     private void dowmLoadCollect(final int action, int mPageId) {
         NetDao.downLoadCollects(mContext, user.getMuserName(), mPageId, new OkHttpUtils.OnCompleteListener<CollectBean[]>() {
             @Override

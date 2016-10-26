@@ -173,4 +173,26 @@ public class NetDao {
                 .targetClass(MessageBean.class)
                 .execute(listener);
     }
+    /*是否添加收藏
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/isCollect?goods_id=7672&userName=yechong*/
+    public static void isCollected(Context context,int goodId,String userName,OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_IS_COLLECT)
+                .addParam(I.Collect.GOODS_ID,String.valueOf(goodId))
+                .addParam(I.Collect.USER_NAME,userName)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    /*添加商品收藏
+    http://101.251.196.90:8000/FuLiCenterServerV2.0/addCollect?goods_id=7672&userName=yechong*/
+    public static void addCollects(Context context,int goodId,String userName,OkHttpUtils.OnCompleteListener<MessageBean>listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_ADD_COLLECT)
+                .addParam(I.Collect.GOODS_ID,String.valueOf(goodId))
+                .addParam(I.Collect.USER_NAME,userName)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
 }

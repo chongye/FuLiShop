@@ -73,7 +73,7 @@ public class PersonalFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        syncUserInfo(FuLiShopApplication.getUser().getMuserName());
+        /*syncUserInfo(FuLiShopApplication.getUser().getMuserName());*/
         if (FuLiShopApplication.getUser() != null) {
             UserAvatar user = FuLiShopApplication.getUser();
             personName.setText(user.getMuserNick());
