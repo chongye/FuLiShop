@@ -79,16 +79,16 @@ public class PersonActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (resultCode != RESULT_OK) {
+        if (resultCode != RESULT_OK) {
             return;
         }
-        onsetAvatar.setAvatar(requestCode, data, ivPersonAvatar);*/
-        if(requestCode==I.REQUEST_CODE_REQUEST&&resultCode==RESULT_OK){
+        onsetAvatar.setAvatar(requestCode, data, ivPersonAvatar);
+        if(requestCode==I.REQUEST_CODE_REQUEST){
             CommonUtils.showShortToast("昵称更新成功");
         }
-        /*if(requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO){
+        if(requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO){
             updateAvatar();
-        }*/
+        }
     }
 
     private void updateAvatar() {
