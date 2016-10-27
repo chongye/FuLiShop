@@ -1,15 +1,46 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="cn.ucai.fulishop.fragment.CartsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/Recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="购物车"
-        android:gravity="center"
-        android:textSize="50sp"/>
-
-</FrameLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </android.support.v7.widget.RecyclerView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <Button
+            android:id="@+id/bt_buy"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@color/main_orange"
+            android:text="购买"
+            android:textSize="20sp"
+            android:layout_alignParentRight="true"/>
+        <TextView
+            android:id="@+id/total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/bt_buy"
+            android:text="123"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/holo_orange_light"/>
+        <TextView
+            android:id="@+id/dec_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/bt_buy"
+            android:layout_below="@id/total_price"
+            android:text="123"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:textSize="20sp"
+            android:textColor="#f00"/>
+    </RelativeLayout>
+</LinearLayout>
