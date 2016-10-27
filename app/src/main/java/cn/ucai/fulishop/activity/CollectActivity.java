@@ -21,6 +21,7 @@ import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.adapter.CollectAdaptar;
 import cn.ucai.fulishop.utils.ConvertUtils;
 import cn.ucai.fulishop.utils.I;
+import cn.ucai.fulishop.utils.L;
 import cn.ucai.fulishop.utils.OkHttpUtils;
 import cn.ucai.fulishop.views.DisplayUtils;
 import cn.ucai.fulishop.views.SpaceItemDecoration;
@@ -87,9 +88,12 @@ public class CollectActivity extends BaseActivity {
         NetDao.downLoadCollects(mContext, user.getMuserName(), mPageId, new OkHttpUtils.OnCompleteListener<CollectBean[]>() {
             @Override
             public void onSuccess(CollectBean[] result) {
+                L.e("result","result1+"+result);
                 if(result==null){
+                    L.e("result","result3+"+result);
                     return;
                 }
+                L.e("result","result2+"+result);
                 mAdapter.setMore(true);
                 srl.setRefreshing(false);
                 tvRefresh.setVisibility(View.GONE);

@@ -68,6 +68,11 @@ public class MFGT {
         Intent intent = new Intent(context, LoginActivity.class);
         startActivityForResult(context,intent,I.REQUEST_CODE_REQUEST);
     }
+    /*跳转到登录界面完成跳转到购物车*/
+    public static void gotoLoginActivityForCart(Activity context){
+        Intent intent = new Intent(context, LoginActivity.class);
+        startActivityForResult(context,intent,I.REQUEST_CODE_REQUEST_FOR_CART);
+    }
     /*跳转到登录界面*/
     public static void gotoLoginActivity(Context context,String name){
         Intent intent = new Intent(context, LoginActivity.class);

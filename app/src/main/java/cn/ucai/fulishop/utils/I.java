@@ -52,6 +52,8 @@ public interface I {
     int CAT_ID=0;
     String AVATAR_SUFFIX = "m_avatar_suffix";
     int REQUEST_CODE_REQUEST = 102;
+    int REQUEST_CODE_REQUEST_FOR_CART = 103;
+    String SEND_BROADCAST_UPDATE_CART = "cn.ucai.fulishop.update.cart";
 
     interface Goods {
         String KEY_RESULT = "result";

@@ -1,10 +1,12 @@
 package cn.ucai.fulishop.Dao;
 
 import android.content.Context;
+import android.content.DialogInterface;
 
 import java.io.File;
 
 import bean.BoutiqueBean;
+import bean.CartBean;
 import bean.CategoryChildBean;
 import bean.CategoryGroupBean;
 import bean.CollectBean;
@@ -193,6 +195,36 @@ public class NetDao {
                 .addParam(I.Collect.USER_NAME,userName)
                 .targetClass(MessageBean.class)
                 .execute(listener);
+    }
+    /*下载购物车商品
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/findCarts?userName=yechong*/
+    public static void downLoadCart(Context context, String userName, OkHttpUtils.OnCompleteListener<CartBean[]> listener){
+        OkHttpUtils<CartBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CARTS)
+                .addParam(I.Cart.USER_NAME,userName)
+                .targetClass(CartBean[].class)
+                .execute(listener);
+    }
+    /*更新购物车
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/updateCart?id=1&count=1&isChecked=1*/
+    public static void updateCart(Context context,int id,int count ,String isChecked,OkHttpUtils.OnCompleteListener<MessageBean> listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_CART)
+                .addParam(I.Cart.ID,String.valueOf(id))
+                .addParam(I.Cart.COUNT,String.valueOf(count))
+                .addParam(I.Cart.IS_CHECKED,isChecked)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+    /*删除购物车
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/deleteCart?id=1*/
+    public static void deleteCart(Context context,int id, OkHttpUtils.OnCompleteListener<MessageBean>listener){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_CART)
+                .addParam(I.Cart.ID,String.valueOf(id))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+
     }
 
 }
