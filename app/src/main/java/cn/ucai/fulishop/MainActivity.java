@@ -94,7 +94,11 @@ public class MainActivity extends AppCompatActivity {
                 indext = 2;
                 break;
             case R.id.rb_Cart:
-                indext = 3;
+                if(FuLiShopApplication.getUser()==null){
+                    MFGT.gotoLoginActivity(this);
+                }else {
+                    indext = 3;
+                }
                 break;
             case R.id.rb_Personal:
                 if(FuLiShopApplication.getUser()==null){
@@ -149,8 +153,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == I.REQUEST_CODE_REQUEST && FuLiShopApplication.getUser()!=null){
+        if(FuLiShopApplication.getUser()!=null){
+            if(requestCode == I.REQUEST_CODE_REQUEST)
             indext = 4;
+        }
+        if(requestCode == I.REQUEST_CODE_REQUEST_FOR_CART){
+            indext = 3;
         }
     }
 }
