@@ -226,5 +226,17 @@ public class NetDao {
                 .execute(listener);
 
     }
+    /*添加购物车
+    * http://101.251.196.90:8000/FuLiCenterServerV2.0/addCart?goods_id=1&userName=1&count=1&isChecked=1*/
+    public static void addCart(Context context,int goodId,String userName,OkHttpUtils.OnCompleteListener<MessageBean> lisetner){
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_ADD_CART)
+                .addParam(I.Cart.GOODS_ID,String.valueOf(goodId))
+                .addParam(I.Cart.USER_NAME,userName)
+                .addParam(I.Cart.COUNT,String.valueOf(1))
+                .addParam(I.Cart.IS_CHECKED,String.valueOf(0))
+                .targetClass(MessageBean.class)
+                .execute(lisetner);
+    }
 
 }

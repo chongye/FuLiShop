@@ -254,9 +254,28 @@ public class GoodsDetailsActivity extends BaseActivity {
 // 启动分享GUI
         oks.show(this);
     }
-
     @OnClick(R.id.iv_Gd_cart)
     public void addCart() {
+        UserAvatar u = FuLiShopApplication.getUser();
+        if(u == null){
+            MFGT.gotoLoginActivity((Activity) mContext);
+        }else{
+            NetDao.addCart(mContext, goodId, u.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if(result!=null&&result.isSuccess()){
+                        CommonUtils.showShortToast("添加购物车成功");
+                    }
+                    else {
+                        CommonUtils.showShortToast("添加购物车失败");
+                    }
+                }
 
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showShortToast("添加购物车失败");
+                }
+            });
+        }
     }
 }

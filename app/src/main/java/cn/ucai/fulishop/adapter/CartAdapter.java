@@ -168,7 +168,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 });
             }
         }
-        @OnClick(R.id.goods_thumb)
+        @OnClick({R.id.goods_thumb,R.id.cart_goods_name})
         public void goodsThumb() {
             int position = (int) addCart.getTag();
             int goodId = mCartList.get(position).getGoods().getGoodsId();

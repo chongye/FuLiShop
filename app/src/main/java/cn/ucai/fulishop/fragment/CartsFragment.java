@@ -93,7 +93,7 @@ public class CartsFragment extends BaseFragment {
                 getResources().getColor(R.color.google_green)
         );
         setCartStatus(false);
-
+        /*calculatePrice();*/
     }
 
     @Override
