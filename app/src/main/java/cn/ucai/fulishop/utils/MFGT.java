@@ -10,6 +10,7 @@ import bean.BoutiqueBean;
 import bean.CategoryChildBean;
 import cn.ucai.fulishop.MainActivity;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.activity.AddressActivity;
 import cn.ucai.fulishop.activity.BoutiqueCategroyActivity;
 import cn.ucai.fulishop.activity.CategoryChildActivity;
 import cn.ucai.fulishop.activity.CollectActivity;
@@ -98,6 +99,12 @@ public class MFGT {
     /*跳转到收藏界面*/
     public static void gotoCollects(Context context){
         Intent intent = new Intent(context, CollectActivity.class);
+        startActivity(context,intent);
+    }
+    /*跳转到结算界面，并传一个String类型拼接的goodId*/
+    public static void gotoBuy(Context context,String goodId,int orderPrice){
+        Intent intent = new Intent(context, AddressActivity.class).putExtra(I.Cart.GOODS_ID,goodId)
+                .putExtra(I.Cart.Goods_SUM_PRICE,orderPrice);
         startActivity(context,intent);
     }
 }

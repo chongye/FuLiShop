@@ -23,13 +23,16 @@ import bean.CartBean;
 import bean.UserAvatar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulishop.Dao.NetDao;
 import cn.ucai.fulishop.FuLiShopApplication;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.activity.AddressActivity;
 import cn.ucai.fulishop.adapter.CartAdapter;
+import cn.ucai.fulishop.utils.CommonUtils;
 import cn.ucai.fulishop.utils.ConvertUtils;
 import cn.ucai.fulishop.utils.I;
-import cn.ucai.fulishop.utils.L;
+import cn.ucai.fulishop.utils.MFGT;
 import cn.ucai.fulishop.utils.OkHttpUtils;
 import cn.ucai.fulishop.views.SpaceItemDecoration;
 
@@ -61,6 +64,8 @@ public class CartsFragment extends BaseFragment {
     RelativeLayout layoutBuy;
 
     UpdateReceiver mReceiver;
+    String goodId = "";
+    int orderPrice;
 
     public CartsFragment() {
         // Required empty public constructor
@@ -108,10 +113,10 @@ public class CartsFragment extends BaseFragment {
     }
 
     public void setCartStatus(boolean hasCart) {
-        tvNothing.setVisibility(hasCart?View.GONE:View.VISIBLE);
-        layoutBuy.setVisibility(hasCart?View.VISIBLE:View.GONE);
+        tvNothing.setVisibility(hasCart ? View.GONE : View.VISIBLE);
+        layoutBuy.setVisibility(hasCart ? View.VISIBLE : View.GONE);
         // 如果购物车为空，这隐藏
-        Recycler.setVisibility(hasCart?View.VISIBLE:View.GONE);
+        Recycler.setVisibility(hasCart ? View.VISIBLE : View.GONE);
         calculatePrice();
     }
 
@@ -131,6 +136,7 @@ public class CartsFragment extends BaseFragment {
                         setCartStatus(false);
                     }
                 }
+
                 @Override
                 public void onError(String error) {
                     setCartStatus(false);
@@ -154,42 +160,58 @@ public class CartsFragment extends BaseFragment {
         });
         mReceiver = new UpdateReceiver();
         IntentFilter filter = new IntentFilter(I.SEND_BROADCAST_UPDATE_CART);
-        mContext.registerReceiver(mReceiver,filter);
+        mContext.registerReceiver(mReceiver, filter);
     }
-    public void calculatePrice(){
+
+    public void calculatePrice() {
         int sumPrice = 0;
         int rankPrice = 0;
-        if(mList != null){
-            for(CartBean cart : mList){
-                if(cart.isChecked()){
-                    sumPrice += getPrice(cart.getGoods().getCurrencyPrice())*cart.getCount();
-                    rankPrice += getPrice(cart.getGoods().getRankPrice())*cart.getCount();
+        orderPrice = 0;
+        goodId = "";
+        if (mList != null) {
+            for (CartBean cart : mList) {
+                if (cart.isChecked()) {
+                    goodId += cart.getId()+",";
+                    sumPrice += getPrice(cart.getGoods().getCurrencyPrice()) * cart.getCount();
+                    rankPrice += getPrice(cart.getGoods().getRankPrice()) * cart.getCount();
                 }
+                orderPrice = sumPrice;
             }
-            totalPrice.setText("总价: ￥"+sumPrice);
-            decPrice.setText("节省: ￥"+(sumPrice-rankPrice));
-        }else{
+            totalPrice.setText("总价: ￥" + sumPrice);
+            decPrice.setText("节省: ￥" + (sumPrice - rankPrice));
+        } else {
             setCartStatus(false);
             totalPrice.setText("总价: ￥0");
             decPrice.setText("节省: ￥0");
         }
     }
-    private int getPrice(String price){
-        return Integer.parseInt(price.substring(price.indexOf("￥")+1));
+
+    private int getPrice(String price) {
+        return Integer.parseInt(price.substring(price.indexOf("￥") + 1));
     }
-    class UpdateReceiver extends BroadcastReceiver{
+
+    @OnClick(R.id.bt_buy)
+    public void BtBuy() {
+        if(!goodId.equals("")&&goodId.length()>0&&orderPrice>0){
+            MFGT.gotoBuy(mContext,goodId,orderPrice);
+        }else{
+            CommonUtils.showShortToast("请选择要购买的商品");
+        }
+    }
+
+    class UpdateReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             calculatePrice();
-            setCartStatus(mList!=null&&mList.size()>0);
+            setCartStatus(mList != null && mList.size() > 0);
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mReceiver!=null){
+        if (mReceiver != null) {
             mContext.unregisterReceiver(mReceiver);
         }
     }

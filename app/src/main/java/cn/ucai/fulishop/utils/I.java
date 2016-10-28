@@ -208,6 +208,7 @@ public interface I {
         String COUNT="count";
         /**商品是否已被选中*/
         String IS_CHECKED="isChecked";
+        String Goods_SUM_PRICE = "goods_sum_price";
     }
 
     interface Collect{
