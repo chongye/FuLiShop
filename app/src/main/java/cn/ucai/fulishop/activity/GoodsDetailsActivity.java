@@ -218,10 +218,12 @@ public class GoodsDetailsActivity extends BaseActivity {
 
     }
 
+    // 实现分享
     @OnClick(R.id.iv_Gd_share)
     public void shareGoods() {
         showShare();
     }
+
     private void showShare() {
         ShareSDK.initSDK(this);
         OnekeyShare oks = new OnekeyShare();
@@ -251,5 +253,10 @@ public class GoodsDetailsActivity extends BaseActivity {
 
 // 启动分享GUI
         oks.show(this);
+    }
+
+    @OnClick(R.id.iv_Gd_cart)
+    public void addCart() {
+
     }
 }

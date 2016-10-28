@@ -22,6 +22,7 @@ import cn.ucai.fulishop.Dao.NetDao;
 import cn.ucai.fulishop.R;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.ImageLoader;
+import cn.ucai.fulishop.utils.MFGT;
 import cn.ucai.fulishop.utils.OkHttpUtils;
 
 /**
@@ -31,6 +32,8 @@ import cn.ucai.fulishop.utils.OkHttpUtils;
 public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     ArrayList<CartBean> mCartList;
+    @BindView(R.id.goods_thumb)
+    ImageView goodsThumb;
 
     public CartAdapter(ArrayList<CartBean> mCartList, Context context) {
         this.mCartList = mCartList;
@@ -105,17 +108,18 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(view);
             ButterKnife.bind(this, view);
         }
+
         @OnClick(R.id.add_cart)
         public void addCart() {
             int position = (int) addCart.getTag();
             final CartBean cartBean = mCartList.get(position);
-            NetDao.updateCart(context, cartBean.getId(), cartBean.getCount()+1,String.valueOf(cartBean.isChecked()), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+            NetDao.updateCart(context, cartBean.getId(), cartBean.getCount() + 1, String.valueOf(cartBean.isChecked()), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {
-                    if(result!=null&&result.isSuccess()){
-                        cartBean.setCount(cartBean.getCount()+1);
+                    if (result != null && result.isSuccess()) {
+                        cartBean.setCount(cartBean.getCount() + 1);
                         context.sendBroadcast(new Intent(I.SEND_BROADCAST_UPDATE_CART));
-                        cartCount.setText("("+cartBean.getCount()+")");
+                        cartCount.setText("(" + cartBean.getCount() + ")");
                     }
                 }
 
@@ -125,12 +129,13 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
         }
+
         @OnClick(R.id.del_cart)
         public void delCart() {
             final int position = (int) addCart.getTag();
             final CartBean cartBean = mCartList.get(position);
-            if(cartBean.getCount()>1) {
-                NetDao.updateCart(context, cartBean.getId(), cartBean.getCount()-1,String.valueOf(cartBean.isChecked()), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+            if (cartBean.getCount() > 1) {
+                NetDao.updateCart(context, cartBean.getId(), cartBean.getCount() - 1, String.valueOf(cartBean.isChecked()), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                     @Override
                     public void onSuccess(MessageBean result) {
                         if (result != null && result.isSuccess()) {
@@ -145,11 +150,11 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     }
                 });
-            }else{
+            } else {
                 NetDao.deleteCart(context, cartBean.getId(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                     @Override
                     public void onSuccess(MessageBean result) {
-                        if(result!=null&&result.isSuccess()){
+                        if (result != null && result.isSuccess()) {
                             mCartList.remove(position);
                             context.sendBroadcast(new Intent(I.SEND_BROADCAST_UPDATE_CART));
                             notifyDataSetChanged();
@@ -162,6 +167,12 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
             }
+        }
+        @OnClick(R.id.goods_thumb)
+        public void goodsThumb() {
+            int position = (int) addCart.getTag();
+            int goodId = mCartList.get(position).getGoods().getGoodsId();
+            MFGT.startDetailsActivity(context,goodId);
         }
 
         /*@OnClick({R.id.add_cart, R.id.del_cart})

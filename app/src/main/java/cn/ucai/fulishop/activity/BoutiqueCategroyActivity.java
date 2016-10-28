@@ -51,8 +51,8 @@ public class BoutiqueCategroyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_boutique_categroy);
+        mContext = this;
         ButterKnife.bind(this);
-        super.onCreate(savedInstanceState);
         Serializable extra = getIntent().getSerializableExtra(I.Boutique.KEY_GOODS);
         BoutiqueBean goods = (BoutiqueBean) extra;
         goodName = goods.getName();
@@ -61,9 +61,7 @@ public class BoutiqueCategroyActivity extends BaseActivity {
             finish();
         }
         tvBoutiqueCategroyName.setText(goodName);
-        initView();
-        initData();
-        setListener();
+        super.onCreate(savedInstanceState);
     }
     @Override
     protected void initData() {
@@ -146,7 +144,6 @@ public class BoutiqueCategroyActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mContext = this;
         mGoodsList = new ArrayList<>();
         mAdapter = new GoodsAdapter(mContext,mGoodsList);
         mManager = new GridLayoutManager(this,I.COLUM_NUM);
