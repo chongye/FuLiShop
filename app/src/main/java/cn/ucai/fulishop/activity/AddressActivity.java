@@ -1,6 +1,8 @@
 package cn.ucai.fulishop.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,18 +10,36 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.sql.Array;
-import java.util.Arrays;
+import com.pingplusplus.android.Pingpp;
+import com.pingplusplus.android.PingppLog;
+import com.pingplusplus.libone.PaymentHandler;
+import com.pingplusplus.libone.PingppOne;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Array;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+import bean.MessageBean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulishop.Dao.NetDao;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.utils.CommonUtils;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.L;
+import cn.ucai.fulishop.utils.OkHttpUtils;
 
-public class AddressActivity extends BaseActivity {
+public class AddressActivity extends BaseActivity implements PaymentHandler{
     final String TAG = AddressActivity.class.getSimpleName();
+
+    private static String URL = "http://218.244.151.190/demo/charge";
+
     Context mcontext;
     @BindView(R.id.backClickArea)
     ImageView backClickArea;
@@ -42,6 +62,15 @@ public class AddressActivity extends BaseActivity {
         ButterKnife.bind(this);
         mcontext = this;
         super.onCreate(savedInstanceState);
+
+        //设置需要使用的支付方式
+        PingppOne.enableChannels(new String[]{"wx", "alipay", "upacp", "bfb", "jdpay_wap"});
+
+        // 提交数据的格式，默认格式为json
+        // PingppOne.CONTENT_TYPE = "application/x-www-form-urlencoded";
+        PingppOne.CONTENT_TYPE = "application/json";
+
+        PingppLog.DEBUG = true;
     }
 
     @Override
@@ -81,7 +110,95 @@ public class AddressActivity extends BaseActivity {
             etStreet.setError("街道地址不能为空");
             return;
         }else {
-
+            gotoBuy();
         }
+    }
+
+    private void gotoBuy() {
+        // 产生个订单号
+        String orderNo = new SimpleDateFormat("yyyyMMddhhmmss")
+                .format(new Date());
+
+        // 构建账单json对象
+        JSONObject bill = new JSONObject();
+
+        // 自定义的额外信息 选填
+        JSONObject extras = new JSONObject();
+        try {
+            extras.put("extra1", "extra1");
+            extras.put("extra2", "extra2");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            bill.put("order_no", orderNo);
+            bill.put("amount", orderPrice*100);
+            bill.put("extras", extras);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //壹收款: 创建支付通道的对话框
+        PingppOne.showPaymentChannels(getSupportFragmentManager(), bill.toString(), URL, this);
+    }
+
+    @Override
+    public void handlePaymentResult(Intent data) {
+        if (data != null) {
+
+            // result：支付结果信息
+            // code：支付结果码
+            //-2:用户自定义错误
+            //-1：失败
+            // 0：取消
+            // 1：成功
+            // 2:应用内快捷支付支付结果
+
+            if (data.getExtras().getInt("code") != 2) {
+                PingppLog.d(data.getExtras().getString("result") + "  " + data.getExtras().getInt("code"));
+            } else {
+                String result = data.getStringExtra("result");
+                try {
+                    JSONObject resultJson = new JSONObject(result);
+                    if (resultJson.has("error")) {
+                        result = resultJson.optJSONObject("error").toString();
+                    } else if (resultJson.has("success")) {
+                        result = resultJson.optJSONObject("success").toString();
+                    }
+                    PingppLog.d("result::" + result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        int resultCode = data.getExtras().getInt("code");
+        switch (resultCode){
+            case 1:
+                // 支付成功，删除购物车内传过来的商品
+                paySuccess();
+                CommonUtils.showShortToast("支付成功");
+                break;
+            case -1:
+                CommonUtils.showShortToast("支付失败");
+                finish();
+                break;
+        }
+    }
+
+    private void paySuccess() {
+        for(String id:goodArr){
+            NetDao.deleteCart(mcontext, Integer.parseInt(id), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
+        }
+        finish();
     }
 }
