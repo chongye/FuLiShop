@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulishop.Dao.NetDao;
 import cn.ucai.fulishop.R;
+import cn.ucai.fulishop.utils.CommonUtils;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.ImageLoader;
 import cn.ucai.fulishop.utils.MFGT;
@@ -150,22 +151,6 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     }
                 });
-            } else {
-                NetDao.deleteCart(context, cartBean.getId(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
-                    @Override
-                    public void onSuccess(MessageBean result) {
-                        if (result != null && result.isSuccess()) {
-                            mCartList.remove(position);
-                            context.sendBroadcast(new Intent(I.SEND_BROADCAST_UPDATE_CART));
-                            notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onError(String error) {
-
-                    }
-                });
             }
         }
         @OnClick({R.id.goods_thumb,R.id.cart_goods_name})
@@ -173,6 +158,28 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int position = (int) addCart.getTag();
             int goodId = mCartList.get(position).getGoods().getGoodsId();
             MFGT.startDetailsActivity(context,goodId);
+        }
+        @OnClick(R.id.delete_goods)
+        public  void deletegoods(){
+            final int position = (int) addCart.getTag();
+            final CartBean cartBean = mCartList.get(position);
+            NetDao.deleteCart(context, cartBean.getId(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if(result!=null&&result.isSuccess()){
+                        CommonUtils.showShortToast("删除商品成功");
+                        // 这不数据库购物车删除成功 1.重新下载，麻烦 2.删除list 然后刷新,发送广播更新购物车价格
+                        mCartList.remove(position);
+                        notifyDataSetChanged();
+                        context.sendBroadcast(new Intent(I.SEND_BROADCAST_UPDATE_CART));
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
         }
 
         /*@OnClick({R.id.add_cart, R.id.del_cart})

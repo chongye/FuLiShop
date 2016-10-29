@@ -49,9 +49,7 @@
                     android:id="@+id/tv_cart_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="22"
                     android:textColor="#fff"
-                    android:background="@drawable/cart_hint"
                     android:layout_marginTop="2dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="18dp"/>

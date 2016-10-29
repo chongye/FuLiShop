@@ -30,8 +30,10 @@ import cn.ucai.fulishop.utils.OkHttpUtils;
 import cn.ucai.fulishop.utils.OnSetAvatarListener;
 import cn.ucai.fulishop.utils.ResultUtils;
 import cn.ucai.fulishop.utils.SharePrefrenceUtils;
+import cn.ucai.fulishop.views.DisplayUtils;
 
 public class PersonActivity extends BaseActivity {
+    final String TAG = PersonActivity.class.getSimpleName();
 
     @BindView(R.id.rl_nick)
     RelativeLayout rlNick;
@@ -69,6 +71,7 @@ public class PersonActivity extends BaseActivity {
         personUserName.setText(user.getMuserName());
         personNick.setText(user.getMuserNick());
         ImageLoader.setAvatar(ImageLoader.getUrl(user), mContext, ivPersonAvatar);
+        DisplayUtils.initBack(this);
     }
 
     @Override
@@ -82,10 +85,12 @@ public class PersonActivity extends BaseActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        onsetAvatar.setAvatar(requestCode, data, ivPersonAvatar);
         if(requestCode==I.REQUEST_CODE_REQUEST){
             CommonUtils.showShortToast("昵称更新成功");
+            return;
         }
+        L.e(TAG,"requestCode:"+requestCode);
+        onsetAvatar.setAvatar(requestCode, data, ivPersonAvatar);
         if(requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO){
             updateAvatar();
         }
@@ -155,6 +160,7 @@ public class PersonActivity extends BaseActivity {
 
     @OnClick(R.id.iv_person_avatar)
     public void onClick() {
+        // 里面启动带返回值得Activity，然后在这个界面的onActivityResult接收
         onsetAvatar = new OnSetAvatarListener((Activity) mContext,R.id.activity_person,user.getMuserName(), I.AVATAR_TYPE_USER_PATH);
     }
 }

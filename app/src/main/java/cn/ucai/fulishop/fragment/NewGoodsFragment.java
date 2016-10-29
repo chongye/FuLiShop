@@ -161,14 +161,15 @@ public class NewGoodsFragment extends BaseFragment{
         mGoodsAdapter = new GoodsAdapter(mContext,mNewGoods);
         gridLayoutManager = new GridLayoutManager(mContext, I.COLUM_NUM);
         // ???
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        /*gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);*/
         // 是否修复大小
         Recycler.setHasFixedSize(true);
+
         Recycler.setLayoutManager(gridLayoutManager);
         Recycler.setAdapter(mGoodsAdapter);
 
         // 设置控件间的距离
-        Recycler.addItemDecoration(new SpaceItemDecoration(12));
+        Recycler.addItemDecoration(new SpaceItemDecoration(10));
 
         srl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),

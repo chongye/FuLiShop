@@ -3,23 +3,21 @@ package cn.ucai.fulishop.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.pingplusplus.android.Pingpp;
 import com.pingplusplus.android.PingppLog;
 import com.pingplusplus.libone.PaymentHandler;
 import com.pingplusplus.libone.PingppOne;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,8 +32,9 @@ import cn.ucai.fulishop.utils.CommonUtils;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.L;
 import cn.ucai.fulishop.utils.OkHttpUtils;
+import cn.ucai.fulishop.views.DisplayUtils;
 
-public class AddressActivity extends BaseActivity implements PaymentHandler{
+public class AddressActivity extends BaseActivity implements PaymentHandler {
     final String TAG = AddressActivity.class.getSimpleName();
 
     private static String URL = "http://218.244.151.190/demo/charge";
@@ -55,6 +54,10 @@ public class AddressActivity extends BaseActivity implements PaymentHandler{
     String goods;
     String[] goodArr;
     int orderPrice;
+    @BindView(R.id.order_price)
+    TextView mOrderPrice;
+    @BindView(R.id.activity_address)
+    LinearLayout activityAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +79,13 @@ public class AddressActivity extends BaseActivity implements PaymentHandler{
     @Override
     protected void initView() {
         goods = getIntent().getStringExtra(I.Cart.GOODS_ID);
-        orderPrice = getIntent().getIntExtra(I.Cart.Goods_SUM_PRICE,0);
+        orderPrice = getIntent().getIntExtra(I.Cart.Goods_SUM_PRICE, 0);
+        mOrderPrice.setText("总价:￥"+orderPrice);
         goodArr = goods.split(",");
         L.e(TAG, "goods:" + goods);
-        L.e(TAG,"orderPrice:"+orderPrice);
-        L.e(TAG,"goodArr:"+ Arrays.toString(goodArr));
+        L.e(TAG, "orderPrice:" + orderPrice);
+        L.e(TAG, "goodArr:" + Arrays.toString(goodArr));
+        DisplayUtils.initBack((Activity) mcontext);
     }
 
     @Override
@@ -97,19 +102,19 @@ public class AddressActivity extends BaseActivity implements PaymentHandler{
         String name = etName.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         String street = etPhone.getText().toString().trim();
-        if(TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)) {
             etName.requestFocus();
             etName.setError("收货人不能为空");
             return;
-        }else if(TextUtils.isEmpty(phone)){
+        } else if (TextUtils.isEmpty(phone)) {
             etPhone.requestFocus();
             etPhone.setError("手机号不能为空");
             return;
-        }else if(TextUtils.isEmpty(street)){
+        } else if (TextUtils.isEmpty(street)) {
             etStreet.requestFocus();
             etStreet.setError("街道地址不能为空");
             return;
-        }else {
+        } else {
             gotoBuy();
         }
     }
@@ -133,7 +138,7 @@ public class AddressActivity extends BaseActivity implements PaymentHandler{
 
         try {
             bill.put("order_no", orderNo);
-            bill.put("amount", orderPrice*100);
+            bill.put("amount", orderPrice * 100);
             bill.put("extras", extras);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -173,7 +178,7 @@ public class AddressActivity extends BaseActivity implements PaymentHandler{
             }
         }
         int resultCode = data.getExtras().getInt("code");
-        switch (resultCode){
+        switch (resultCode) {
             case 1:
                 // 支付成功，删除购物车内传过来的商品
                 paySuccess();
@@ -187,7 +192,7 @@ public class AddressActivity extends BaseActivity implements PaymentHandler{
     }
 
     private void paySuccess() {
-        for(String id:goodArr){
+        for (String id : goodArr) {
             NetDao.deleteCart(mcontext, Integer.parseInt(id), new OkHttpUtils.OnCompleteListener<MessageBean>() {
                 @Override
                 public void onSuccess(MessageBean result) {

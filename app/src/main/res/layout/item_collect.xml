@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#fee"
+    app:cardCornerRadius="5dp">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_Goods"
     android:layout_width="match_parent"
@@ -25,3 +31,4 @@
         android:layout_alignParentRight="true"
         android:src="@mipmap/delete"/>
 </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -71,6 +71,16 @@ public class CollectActivity extends BaseActivity {
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green)
         );
+
+        glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == mAdapter.getItemCount() - 1) {
+                    return 2;
+                }
+                return 1;
+            }
+        });
     }
 
     @Override

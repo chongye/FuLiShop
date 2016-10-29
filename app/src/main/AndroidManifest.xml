@@ -28,7 +28,7 @@
         android:name=".FuLiShopApplication"
         android:allowBackup="true"
         android:icon="@mipmap/launcher"
-        android:label="福利社"
+        android:label="福利社区"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />

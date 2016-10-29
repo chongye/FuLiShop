@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Switch;
@@ -18,10 +19,13 @@ import cn.ucai.fulishop.fragment.CartsFragment;
 import cn.ucai.fulishop.fragment.CategoryFragment;
 import cn.ucai.fulishop.fragment.NewGoodsFragment;
 import cn.ucai.fulishop.fragment.PersonalFragment;
+import cn.ucai.fulishop.utils.CommonUtils;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.MFGT;
 
 public class MainActivity extends AppCompatActivity {
+    final  String TAG = MainActivity.class.getSimpleName();
+
     RadioButton mNewGoods,mBoutique,mCategory,mCart,mPersonal;
 
     RadioButton[] rbs;
@@ -141,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e(TAG,"onResume，执行");
         if(FuLiShopApplication.getUser()==null&&indext!=4){
             indext = currentIndext;
         }else if(FuLiShopApplication.getUser()==null&&indext==4){
@@ -154,11 +159,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(FuLiShopApplication.getUser()!=null){
+            Log.e(TAG,"onActivityResult，执行");
             if(requestCode == I.REQUEST_CODE_REQUEST)
             indext = 4;
+
         }
         if(requestCode == I.REQUEST_CODE_REQUEST_FOR_CART){
             indext = 3;
+        }
+    }
+    long mExitTime = 0;
+    @Override
+    public void onBackPressed(){
+        if(System.currentTimeMillis()-mExitTime>2000){
+            CommonUtils.showShortToast("再次点击退出");
+            mExitTime = System.currentTimeMillis();
+        }else{
+            super.onBackPressed();
         }
     }
 }

@@ -17,14 +17,17 @@
             android:id="@+id/tv_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="刷新中..." />
+            android:text="刷新中..."
+            android:textColor="#000"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
             <TextView
                 android:id="@+id/tv_nothing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="购物车空空如也..."
                 android:gravity="center"
-                android:textSize="40sp"/>
+                android:textSize="30sp"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/Recycler"
         android:layout_width="match_parent"
@@ -35,13 +38,13 @@
     <RelativeLayout
         android:id="@+id/layout_buy"
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="60dp">
         <Button
             android:id="@+id/bt_buy"
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:background="@color/main_orange"
-            android:text="购买"
+            android:text="提交订单"
             android:textSize="20sp"
             android:layout_alignParentRight="true"/>
         <TextView
@@ -50,9 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/bt_buy"
             android:text="123"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/holo_orange_light"/>
         <TextView
             android:id="@+id/dec_price"
@@ -63,7 +66,7 @@
             android:text="123"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="#f00"/>
     </RelativeLayout>
 </LinearLayout>

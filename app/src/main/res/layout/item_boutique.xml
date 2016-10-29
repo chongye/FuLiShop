@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#fee"
+    app:cardCornerRadius="5dp"
+    android:layout_height="180dp">
+<RelativeLayout
     android:id="@+id/layout_Boutique"
     android:layout_width="match_parent"
     android:background="@color/good_detail_bg_white"
-    android:layout_height="220dp">
+    android:layout_height="180dp">
     <ImageView
         android:id="@+id/iv_Boutique"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:scaleType="fitXY"
         android:src="@drawable/nopic" />
     <TextView
         android:id="@+id/tv_boutique_title"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_Boutique"
         android:textSize="15sp"
         android:textColor="#f00"
         android:text="111111"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
     <TextView
         android:id="@+id/tv_boutique_name"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/tv_boutique_title"
         android:layout_toRightOf="@id/iv_Boutique"
-        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
         android:text="11111"
         android:textSize="20sp"
         android:textColor="#000"/>
     <TextView
         android:id="@+id/tv_boutique_description"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/tv_boutique_name"
         android:layout_toRightOf="@id/iv_Boutique"
-        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
         android:text="1111"
         android:textSize="15sp"/>
 </RelativeLayout>
+</android.support.v7.widget.CardView>

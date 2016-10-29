@@ -5,13 +5,14 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@color/main_orange">
         <ImageView
-            android:id="@+id/iv_Child_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/back_nomal"/>
+            android:id="@+id/backClickArea"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/back_nomal"
+            android:layout_centerVertical="true"/>
         <cn.ucai.fulishop.views.CatChildFilterButton
             android:id="@+id/btnCatChildFilter"
             android:layout_width="wrap_content"
@@ -25,6 +26,10 @@
             android:textColor="@color/white"
             android:text="分类"/>
     </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide_line_bg"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

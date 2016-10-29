@@ -8,12 +8,12 @@
     tools:context="cn.ucai.fulishop.activity.AddressActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:background="#fff">
         <ImageView
             android:id="@+id/backClickArea"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/back"
             android:layout_centerVertical="true"/>
         <TextView
@@ -21,7 +21,8 @@
             android:layout_height="match_parent"
             android:text="添加收货地址"
             android:gravity="center"
-            android:textSize="30sp"/>
+            android:textColor="#000"
+            android:textSize="20sp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="@color/good_detail_bg_white"
             android:textSize="20sp"
             />
     </RelativeLayout>
@@ -64,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="@color/good_detail_bg_white"
             android:textSize="20sp"
             />
     </RelativeLayout>
@@ -107,14 +110,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:background="@color/good_detail_bg_white"
             android:textSize="20sp"
             />
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></View>
+    <TextView
+        android:id="@+id/order_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="111"
+        android:textSize="20sp"
+        android:textColor="@color/main_orange"/>
     <Button
         android:id="@+id/bt_buy"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="结算"
+        android:text="付款"
         android:background="@color/orange"/>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package cn.ucai.fulishop.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -23,6 +24,7 @@ import cn.ucai.fulishop.utils.MFGT;
 import cn.ucai.fulishop.utils.OkHttpUtils;
 import cn.ucai.fulishop.utils.ResultUtils;
 import cn.ucai.fulishop.utils.SharePrefrenceUtils;
+import cn.ucai.fulishop.views.DisplayUtils;
 
 public class UpdateNickActivity extends BaseActivity {
 
@@ -55,6 +57,7 @@ public class UpdateNickActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        DisplayUtils.initBack(this);
 
     }
 

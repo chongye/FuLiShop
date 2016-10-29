@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    android:layout_margin="5dp">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/good_detail_bg_white">
@@ -59,9 +66,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_centerVertical="true"
         android:textColor="#F00"
+        android:layout_margin="10dp"
         android:textSize="20sp"
         android:text="1234"/>
+    <ImageView
+        android:id="@+id/delete_goods"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/deleteee"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/goods_price"
+        android:layout_marginRight="20dp"/>
 </RelativeLayout>
+</android.support.v7.widget.CardView>

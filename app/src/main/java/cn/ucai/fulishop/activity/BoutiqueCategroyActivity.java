@@ -1,5 +1,6 @@
 package cn.ucai.fulishop.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,12 +26,11 @@ import cn.ucai.fulishop.utils.ConvertUtils;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.L;
 import cn.ucai.fulishop.utils.OkHttpUtils;
+import cn.ucai.fulishop.views.DisplayUtils;
 import cn.ucai.fulishop.views.SpaceItemDecoration;
 
 public class BoutiqueCategroyActivity extends BaseActivity {
 
-    @BindView(R.id.iv_Boutique_Categroy)
-    ImageView ivBoutiqueCategroy;
     @BindView(R.id.tv_boutique_Categroy_name)
     TextView tvBoutiqueCategroyName;
     @BindView(R.id.tv_boutique_Refresh)
@@ -66,6 +66,7 @@ public class BoutiqueCategroyActivity extends BaseActivity {
     @Override
     protected void initData() {
         initData(I.ACTION_DOWNLOAD,mPageId);
+        DisplayUtils.initBack((Activity) mContext);
     }
     @Override
     protected void setListener() {
@@ -109,9 +110,6 @@ public class BoutiqueCategroyActivity extends BaseActivity {
                 }
                 ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                 mAdapter.setMore(result!=null&&result.length>0);
-                if(result.length%2==1){
-                    list.add(new NewGoodsBean());
-                }
                 if(!mAdapter.isMore()){
                     if(action == I.ACTION_PULL_UP){
                         mAdapter.setFooter(getResources().getString(R.string.no_more));
@@ -154,7 +152,18 @@ public class BoutiqueCategroyActivity extends BaseActivity {
 
         recyclerBoutiqueCategroy.setAdapter(mAdapter);
         recyclerBoutiqueCategroy.setLayoutManager(mManager);
-        recyclerBoutiqueCategroy.addItemDecoration(new SpaceItemDecoration(12));
+        recyclerBoutiqueCategroy.addItemDecoration(new SpaceItemDecoration(10));
+
+        mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == mAdapter.getItemCount() - 1) {
+                    return 2;
+                }
+                return 1;
+            }
+        });
+
 
         srlBoutiqueCategroy.setColorSchemeColors(
                 getResources().getColor(R.color.google_red),

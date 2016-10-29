@@ -26,6 +26,7 @@ import cn.ucai.fulishop.utils.ConvertUtils;
 import cn.ucai.fulishop.utils.I;
 import cn.ucai.fulishop.utils.L;
 import cn.ucai.fulishop.utils.OkHttpUtils;
+import cn.ucai.fulishop.views.DisplayUtils;
 import cn.ucai.fulishop.views.SpaceItemDecoration;
 
 public class CategoryChildActivity extends AppCompatActivity {
@@ -57,8 +58,6 @@ public class CategoryChildActivity extends AppCompatActivity {
     int sort;
     boolean isPriceAsc;
     boolean isAddTimeAsc;
-    @BindView(R.id.iv_Child_back)
-    ImageView ivChildBack;
     @BindView(R.id.btnCatChildFilter)
     cn.ucai.fulishop.views.CatChildFilterButton btnCatChildFilter;
 
@@ -92,7 +91,7 @@ public class CategoryChildActivity extends AppCompatActivity {
 
         Recycler.setAdapter(mAdapter);
         Recycler.setLayoutManager(mManager);
-        Recycler.addItemDecoration(new SpaceItemDecoration(12));
+        Recycler.addItemDecoration(new SpaceItemDecoration(10));
         btnCatChildFilter.setText(mGoodsName);
 
         srl.setColorSchemeColors(
@@ -108,6 +107,7 @@ public class CategoryChildActivity extends AppCompatActivity {
     private void initData() {
         initData(I.ACTION_DOWNLOAD, mPageId);
         btnCatChildFilter.setOnCatFilterClickListener(mGoodsName, mChildList);
+        DisplayUtils.initBack(this);
     }
 
     private void setListener() {
