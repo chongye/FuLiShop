@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cn.ucai.fulishop.activity.RegisterActivity">
+    tools:context="cn.ucai.hailegou.activity.RegisterActivity">
     <RelativeLayout
         android:id="@+id/layout_login_title"
         android:layout_width="match_parent"

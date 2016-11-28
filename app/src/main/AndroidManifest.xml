@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.ucai.fulishop">
+    package="cn.ucai.hailegou">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,28 +25,28 @@
     <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
-        android:name=".FuLiShopApplication"
+        android:name="cn.ucai.hailegou.HiLeGouApplication"
         android:allowBackup="true"
         android:icon="@mipmap/launcher"
-        android:label="福利社区"
+        android:label="嗨乐购"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name="cn.ucai.hailegou.MainActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GoodsDetailsActivity" />
-        <activity android:name=".activity.BoutiqueCategroyActivity" />
-        <activity android:name=".activity.CategoryChildActivity" />
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.PersonActivity" />
-        <activity android:name=".activity.UpdateNickActivity" />
-        <activity android:name=".activity.CollectActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.GoodsDetailsActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.BoutiqueCategroyActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.CategoryChildActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.RegisterActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.LoginActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.PersonActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.UpdateNickActivity" />
+        <activity android:name="cn.ucai.hailegou.activity.CollectActivity" />
         <!-- 起始 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
@@ -71,12 +71,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="cn.ucai.hailegou.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activity.AddressActivity"></activity>
+        <activity android:name="cn.ucai.hailegou.activity.AddressActivity"></activity>
 
 
         <!--Pinggg begin-->

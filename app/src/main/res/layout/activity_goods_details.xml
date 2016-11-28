@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="cn.ucai.fulishop.activity.GoodsDetailsActivity">
+    tools:context="cn.ucai.hailegou.activity.GoodsDetailsActivity">
     <LinearLayout
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
@@ -100,12 +100,12 @@
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="60dp">
-        <cn.ucai.fulishop.views.SlideAutoLoopView
+        <cn.ucai.hailegou.views.SlideAutoLoopView
             android:id="@+id/Salv"
             android:layout_width="wrap_content"
             android:layout_height="250dp"
             android:background="@color/good_detail_bg_white"/>
-        <cn.ucai.fulishop.views.FlowIndicator
+        <cn.ucai.hailegou.views.FlowIndicator
             android:id="@+id/indicator"
             android:layout_below="@id/Salv"
             android:layout_width="match_parent"

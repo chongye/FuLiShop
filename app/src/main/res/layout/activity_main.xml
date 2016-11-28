@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ucai.fulishop.MainActivity">
+    tools:context="cn.ucai.hailegou.MainActivity">
     <LinearLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"

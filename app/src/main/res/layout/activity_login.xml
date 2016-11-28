@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.ucai.fulishop.fragment.PersonalFragment">
+    tools:context="cn.ucai.hailegou.fragment.PersonalFragment">
     <RelativeLayout
         android:id="@+id/layout_login_title"
         android:layout_width="match_parent"

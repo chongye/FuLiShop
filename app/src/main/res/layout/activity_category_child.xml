@@ -13,7 +13,7 @@
             android:layout_height="25dp"
             android:src="@mipmap/back_nomal"
             android:layout_centerVertical="true"/>
-        <cn.ucai.fulishop.views.CatChildFilterButton
+        <cn.ucai.hailegou.views.CatChildFilterButton
             android:id="@+id/btnCatChildFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
